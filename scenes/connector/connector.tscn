@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://drlwq07rly1as"]
+
+[ext_resource type="Script" path="res://scenes/connector/connector.gd" id="1_5sgti"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xg5o4"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pgpew"]
+size = Vector3(10.2, 0.25, 0.4)
+
+[sub_resource type="PrismMesh" id="PrismMesh_1ybjv"]
+size = Vector3(0.4, 0.2, 0.1)
+
+[node name="Connector" type="Node3D"]
+script = ExtResource("1_5sgti")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+material_override = SubResource("StandardMaterial3D_xg5o4")
+mesh = SubResource("BoxMesh_pgpew")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(-1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, 0.1, 0)
+mesh = SubResource("PrismMesh_1ybjv")

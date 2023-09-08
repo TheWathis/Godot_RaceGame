@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4ciies80nty6"]
+
+[ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="1_d2wn7"]
+[ext_resource type="PackedScene" uid="uid://nidi4tm2miwk" path="res://scenes/blocs/assets/road_bend.glb" id="2_c7jhu"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="3_mkah1"]
+
+[node name="RoadBendLeft" type="Node3D"]
+script = ExtResource("1_d2wn7")
+
+[node name="road_bend" parent="." instance=ExtResource("2_c7jhu")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Connector_IN" parent="." instance=ExtResource("3_mkah1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Connector_OUT" parent="." instance=ExtResource("3_mkah1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5, 0, 0)

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmrqu815ytcot"]
+
+[ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="1_pp7vg"]
+[ext_resource type="PackedScene" uid="uid://bufmdno6osbir" path="res://scenes/blocs/assets/road_curve.glb" id="2_3wmrg"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="3_lpca4"]
+
+[node name="RoadCurveLeft" type="Node3D"]
+script = ExtResource("1_pp7vg")
+
+[node name="road_curve" parent="." instance=ExtResource("2_3wmrg")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Connector_IN" parent="." instance=ExtResource("3_lpca4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 10)
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Connector_OUT" parent="." instance=ExtResource("3_lpca4")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10, 0, -5)

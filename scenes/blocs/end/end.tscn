@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbxwioj168bms"]
+
+[ext_resource type="Script" path="res://scenes/blocs/end/end.gd" id="1_2bkq3"]
+[ext_resource type="PackedScene" uid="uid://be3oujoiy687x" path="res://scenes/blocs/assets/road_endRound.glb" id="3_4cuu2"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="3_fh27j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nf0b7"]
+size = Vector3(8, 1, 5)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wdc6j"]
+height = 1.0
+radius = 4.0
+
+[node name="End" type="Node3D"]
+script = ExtResource("1_2bkq3")
+
+[node name="Connector" parent="." instance=ExtResource("3_fh27j")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 5)
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="road_endRound" parent="." instance=ExtResource("3_4cuu2")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="EndDetector" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EndDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 2.5)
+shape = SubResource("BoxShape3D_nf0b7")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="EndDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+shape = SubResource("CylinderShape3D_wdc6j")
+
+[connection signal="body_entered" from="EndDetector" to="." method="_on_end_detector_body_entered"]

@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpd6evghi2ihj"]
+
+[ext_resource type="PackedScene" uid="uid://cmc2jevj3u8ef" path="res://scenes/blocs/assets/road_straight.glb" id="1_5fyjl"]
+[ext_resource type="Script" path="res://scenes/blocs/checkpoint/checkpoint.gd" id="1_rage0"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="2_c4upe"]
+[ext_resource type="PackedScene" uid="uid://djii1p2wdecsy" path="res://scenes/blocs/assets/light_curvedDouble.glb" id="3_my5vd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mnjv6"]
+size = Vector3(8, 5, 10)
+
+[node name="Checkpoint" type="Node3D"]
+script = ExtResource("1_rage0")
+
+[node name="road_straight" parent="." instance=ExtResource("1_5fyjl")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Connector_IN" parent="." instance=ExtResource("2_c4upe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="Connector_OUT" parent="." instance=ExtResource("2_c4upe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="light_curvedDouble" parent="." instance=ExtResource("3_my5vd")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.5, 0, 0)
+
+[node name="light_curvedDouble2" parent="." instance=ExtResource("3_my5vd")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.5, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_mnjv6")
+
+[node name="PlayerPosition" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

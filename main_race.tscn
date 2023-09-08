@@ -1,0 +1,65 @@
+[gd_scene load_steps=19 format=3 uid="uid://daeqf725r5hs0"]
+
+[ext_resource type="Script" path="res://road_generator.gd" id="1_f41a7"]
+[ext_resource type="PackedScene" uid="uid://c4ciies80nty6" path="res://scenes/blocs/road_bend_left/road_bend_left.tscn" id="3_2374i"]
+[ext_resource type="PackedScene" uid="uid://ctt5rya4tbhk1" path="res://scenes/blocs/road_slant_flat_curve_up/road_slant_flat_curve_up.tscn" id="3_vc8va"]
+[ext_resource type="PackedScene" uid="uid://bkag7xqvcqiiq" path="res://scenes/blocs/road_slant_flat_curve_down/road_slant_flat_curve_down.tscn" id="4_iv0n1"]
+[ext_resource type="PackedScene" uid="uid://dvjbvv8m647w2" path="res://scenes/blocs/road_bend_right/road_bend_right.tscn" id="4_o1ieh"]
+[ext_resource type="PackedScene" uid="uid://bsaye3at58vna" path="res://scenes/blocs/road_curve_right/road_curve_right.tscn" id="5_o7wrp"]
+[ext_resource type="PackedScene" uid="uid://bmrqu815ytcot" path="res://scenes/blocs/road_curve_left/road_curve_left.tscn" id="5_tjb4q"]
+[ext_resource type="PackedScene" uid="uid://8nw746thkdiv" path="res://scenes/blocs/road/road.tscn" id="6_heqav"]
+[ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://world_environment.tscn" id="7_urhx6"]
+[ext_resource type="PackedScene" uid="uid://cpd6evghi2ihj" path="res://scenes/blocs/checkpoint/checkpoint.tscn" id="9_pscaq"]
+
+[sub_resource type="GDScript" id="GDScript_1twkq"]
+script/source = "extends Node3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+  $Node3D._clear()
+  $Node3D._generate()
+
+"
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f8y5y"]
+friction = 0.25
+
+[sub_resource type="Gradient" id="Gradient_q4oit"]
+colors = PackedColorArray(0, 0.247059, 0, 1, 0.0470588, 0.517647, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r5bjx"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xmbdv"]
+color_ramp = SubResource("Gradient_q4oit")
+noise = SubResource("FastNoiseLite_r5bjx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xcu3d"]
+albedo_texture = SubResource("NoiseTexture2D_xmbdv")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i4834"]
+material = SubResource("StandardMaterial3D_xcu3d")
+size = Vector2(500, 500)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w64dm"]
+size = Vector3(500, 1, 500)
+
+[node name="Node3D" type="Node3D"]
+script = SubResource("GDScript_1twkq")
+
+[node name="Node3D" type="Node3D" parent="."]
+script = ExtResource("1_f41a7")
+roads = Array[PackedScene]([ExtResource("6_heqav"), ExtResource("3_2374i"), ExtResource("4_o1ieh"), ExtResource("5_tjb4q"), ExtResource("5_o7wrp"), ExtResource("4_iv0n1"), ExtResource("3_vc8va"), ExtResource("9_pscaq")])
+road_length = 25
+
+[node name="WorldEnvironment" parent="." instance=ExtResource("7_urhx6")]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_f8y5y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_i4834")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_w64dm")
