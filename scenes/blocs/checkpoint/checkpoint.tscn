@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://djii1p2wdecsy" path="res://scenes/blocs/assets/light_curvedDouble.glb" id="3_my5vd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mnjv6"]
-size = Vector3(8, 5, 10)
+size = Vector3(8, 6.5, 2)
 
 [node name="Checkpoint" type="Node3D"]
 script = ExtResource("1_rage0")
@@ -30,7 +30,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.5, 
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3, 0)
 shape = SubResource("BoxShape3D_mnjv6")
 
 [node name="PlayerPosition" type="Marker3D" parent="."]

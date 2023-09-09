@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://daeqf725r5hs0"]
+[gd_scene load_steps=24 format=3 uid="uid://daeqf725r5hs0"]
 
 [ext_resource type="Script" path="res://road_generator.gd" id="1_f41a7"]
 [ext_resource type="PackedScene" uid="uid://c4ciies80nty6" path="res://scenes/blocs/road_bend_left/road_bend_left.tscn" id="3_2374i"]
@@ -10,16 +10,28 @@
 [ext_resource type="PackedScene" uid="uid://8nw746thkdiv" path="res://scenes/blocs/road/road.tscn" id="6_heqav"]
 [ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://world_environment.tscn" id="7_urhx6"]
 [ext_resource type="PackedScene" uid="uid://cpd6evghi2ihj" path="res://scenes/blocs/checkpoint/checkpoint.tscn" id="9_pscaq"]
+[ext_resource type="AudioStream" uid="uid://cyt7cb7spkct6" path="res://assets/musics/Chiptune Action Cool main.wav" id="11_061fw"]
+[ext_resource type="AudioStream" uid="uid://bpgipwl27358s" path="res://assets/musics/Chiptune Action Fun main.wav" id="12_i4y6x"]
+[ext_resource type="AudioStream" uid="uid://c8uy7v61nyolc" path="res://assets/musics/Chiptune Chilled Fun main.wav" id="13_ofifw"]
+[ext_resource type="AudioStream" uid="uid://dxj3r0uwsig2i" path="res://assets/musics/Chiptune Victory main.wav" id="14_oop5y"]
 
 [sub_resource type="GDScript" id="GDScript_1twkq"]
 script/source = "extends Node3D
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
+  %AudioStreamPlayer.volume_db = 0
+  new_map()
+
+
+func new_map() -> void:
+  %SpectatorCamera.current = true
   $Node3D._clear()
   $Node3D._generate()
 
+
+func _on_audio_stream_player_finished():
+  %AudioStreamPlayer.play()
 "
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f8y5y"]
@@ -44,7 +56,20 @@ size = Vector2(500, 500)
 [sub_resource type="BoxShape3D" id="BoxShape3D_w64dm"]
 size = Vector3(500, 1, 500)
 
-[node name="Node3D" type="Node3D"]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dtnqd"]
+streams_count = 4
+random_pitch = 1.0
+random_volume_offset_db = 0.0
+stream_0/stream = ExtResource("11_061fw")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("12_i4y6x")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("13_ofifw")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("14_oop5y")
+stream_3/weight = 1.0
+
+[node name="MainRace" type="Node3D"]
 script = SubResource("GDScript_1twkq")
 
 [node name="Node3D" type="Node3D" parent="."]
@@ -63,3 +88,17 @@ mesh = SubResource("PlaneMesh_i4834")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_w64dm")
+
+[node name="SpectatorCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 150, 0)
+current = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_dtnqd")
+volume_db = -80.0
+autoplay = true
+bus = &"Music"
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

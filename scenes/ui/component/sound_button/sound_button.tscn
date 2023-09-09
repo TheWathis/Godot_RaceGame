@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtj4scvls875o"]
+
+[ext_resource type="Script" path="res://scenes/ui/component/sound_button/sound_button.gd" id="1_ivnou"]
+[ext_resource type="AudioStream" uid="uid://ckiro3ukr6x2f" path="res://assets/sfx/click_003.ogg" id="2_n7fcr"]
+
+[node name="SoundButton" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_ivnou")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_n7fcr")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

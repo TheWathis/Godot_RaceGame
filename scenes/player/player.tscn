@@ -1,8 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://cug0e6ajqr1df"]
+[gd_scene load_steps=20 format=3 uid="uid://cug0e6ajqr1df"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_hvm05"]
+[ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_x2m8o"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_fps2o"]
 font_size = 32
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5t7cb"]
@@ -210,6 +214,8 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_v1jny")
 
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_bdqxp"]
+
 [sub_resource type="GDScript" id="GDScript_gpq5r"]
 script/source = "extends Camera3D
 
@@ -316,6 +322,101 @@ label_settings = SubResource("LabelSettings_x2m8o")
 
 [node name="Timer" type="Timer" parent="Control/CheckpointTime"]
 
+[node name="EndScreen" type="Control" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control/EndScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/EndScreen/CenterContainer"]
+layout_mode = 2
+
+[node name="EndTime" type="Label" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00:00:0000"
+label_settings = SubResource("LabelSettings_fps2o")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HomeButton" parent="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_d4fk4")]
+layout_mode = 2
+text = "Home"
+
+[node name="ImproveButton" parent="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_d4fk4")]
+layout_mode = 2
+text = "Improve"
+
+[node name="NextButton" parent="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_d4fk4")]
+layout_mode = 2
+text = "New map"
+
+[node name="Label" type="Label" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Next map seed:"
+
+[node name="NextSeed" type="LineEdit" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EscapeScreen" type="Control" parent="Control"]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = -80.0
+offset_right = 64.0
+offset_bottom = -80.0
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Control/EscapeScreen"]
+layout_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/EscapeScreen/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/EscapeScreen/Panel/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Resume" parent="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer" instance=ExtResource("2_d4fk4")]
+layout_mode = 2
+text = "Resume"
+
+[node name="Reset" parent="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer" instance=ExtResource("2_d4fk4")]
+layout_mode = 2
+text = "Reset this map"
+
+[node name="Next" parent="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer" instance=ExtResource("2_d4fk4")]
+layout_mode = 2
+text = "New map"
+
+[node name="Home" parent="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer" instance=ExtResource("2_d4fk4")]
+layout_mode = 2
+text = "Home"
+
 [node name="body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34997e-13, 0.1, 0)
 mesh = SubResource("ArrayMesh_iomqm")
@@ -338,12 +439,12 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 
 engine_force = 3.0
 use_as_traction = true
 wheel_radius = 0.3
+wheel_rest_length = 0.1
 wheel_friction_slip = 1.5
 suspension_travel = 0.05
 suspension_stiffness = 200.0
-suspension_max_force = 800.0
-damping_compression = 0.85
-damping_relaxation = 0.9
+damping_compression = 1.9
+damping_relaxation = 2.0
 
 [node name="wheel_backLeft" type="MeshInstance3D" parent="Wheel_B_L"]
 transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.15, 0, 0)
@@ -355,12 +456,12 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0
 engine_force = 3.0
 use_as_traction = true
 wheel_radius = 0.3
+wheel_rest_length = 0.1
 wheel_friction_slip = 1.5
 suspension_travel = 0.05
 suspension_stiffness = 200.0
-suspension_max_force = 800.0
-damping_compression = 0.85
-damping_relaxation = 0.9
+damping_compression = 1.9
+damping_relaxation = 2.0
 
 [node name="wheel_backRight" type="MeshInstance3D" parent="Wheel_B_R"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.15, 0, 1.19209e-07)
@@ -373,12 +474,12 @@ engine_force = 3.0
 use_as_traction = true
 use_as_steering = true
 wheel_radius = 0.3
+wheel_rest_length = 0.1
 wheel_friction_slip = 1.5
 suspension_travel = 0.05
 suspension_stiffness = 200.0
-suspension_max_force = 800.0
-damping_compression = 0.85
-damping_relaxation = 0.9
+damping_compression = 1.9
+damping_relaxation = 2.0
 
 [node name="wheel_frontLeft" type="MeshInstance3D" parent="Wheel_F_L"]
 transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.15, 0, 0)
@@ -391,22 +492,34 @@ engine_force = 3.0
 use_as_traction = true
 use_as_steering = true
 wheel_radius = 0.3
+wheel_rest_length = 0.1
 wheel_friction_slip = 1.5
 suspension_travel = 0.05
 suspension_stiffness = 200.0
-suspension_max_force = 800.0
-damping_compression = 0.85
-damping_relaxation = 0.9
+damping_compression = 1.9
+damping_relaxation = 2.0
 
 [node name="wheel_frontRight" type="MeshInstance3D" parent="Wheel_F_R"]
 transform = Transform3D(-1, 0, 8.9407e-08, 0, 1, 0, -8.9407e-08, 0, -1, 0.15, 0, 1.19209e-07)
 mesh = SubResource("ArrayMesh_svf23")
 skeleton = NodePath("")
 
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamGenerator_bdqxp")
+autoplay = true
+
 [node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 4)
 script = SubResource("GDScript_gpq5r")
 max_distance = 8.0
 height = 4.0
 
 [connection signal="timeout" from="Control/CheckpointTime/Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/ImproveButton" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Home" to="." method="_on_home_button_pressed"]
