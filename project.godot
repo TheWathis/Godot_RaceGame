@@ -22,6 +22,8 @@ config/icon="res://assets/ico.svg"
 Random="*res://autoloads/random.gd"
 GlobalTimer="*res://autoloads/timer.gd"
 Physics="*res://autoloads/physics.gd"
+GlobalSettings="*res://autoloads/global_settings.gd"
+SaveSettings="*res://autoloads/save_settings.gd"
 
 [input]
 
