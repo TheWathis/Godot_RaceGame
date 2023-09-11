@@ -1,7 +1,7 @@
 [gd_scene load_steps=31 format=3 uid="uid://cg8y05aj78yvc"]
 
 [ext_resource type="Script" path="res://home.gd" id="1_knx7k"]
-[ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://world_environment.tscn" id="2_1lxeg"]
+[ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://scenes/environment/world_environment.tscn" id="2_1lxeg"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_2qyew"]
 [ext_resource type="PackedScene" uid="uid://bsaye3at58vna" path="res://scenes/blocs/road_curve_right/road_curve_right.tscn" id="2_nvdj5"]
 [ext_resource type="AudioStream" uid="uid://du6165v7h5ghu" path="res://assets/musics/Chiptune Happy main.wav" id="4_osooy"]
@@ -493,7 +493,6 @@ bus = &"Music"
 [connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="MainMenu/SettingsContainer/BackHome" to="." method="_on_back_home_pressed"]
 
-[editable path="WorldEnvironment"]
 [editable path="RoadCurveRight"]
 [editable path="RoadCurveRight2"]
 [editable path="RoadCurveRight3"]

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bsaye3at58vna" path="res://scenes/blocs/road_curve_right/road_curve_right.tscn" id="5_o7wrp"]
 [ext_resource type="PackedScene" uid="uid://bmrqu815ytcot" path="res://scenes/blocs/road_curve_left/road_curve_left.tscn" id="5_tjb4q"]
 [ext_resource type="PackedScene" uid="uid://8nw746thkdiv" path="res://scenes/blocs/road/road.tscn" id="6_heqav"]
-[ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://world_environment.tscn" id="7_urhx6"]
+[ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://scenes/environment/world_environment.tscn" id="7_urhx6"]
 [ext_resource type="PackedScene" uid="uid://cpd6evghi2ihj" path="res://scenes/blocs/checkpoint/checkpoint.tscn" id="9_pscaq"]
 [ext_resource type="AudioStream" uid="uid://cyt7cb7spkct6" path="res://assets/musics/Chiptune Action Cool main.wav" id="11_061fw"]
 [ext_resource type="AudioStream" uid="uid://bpgipwl27358s" path="res://assets/musics/Chiptune Action Fun main.wav" id="12_i4y6x"]
@@ -75,7 +75,7 @@ script = SubResource("GDScript_1twkq")
 [node name="Node3D" type="Node3D" parent="."]
 script = ExtResource("1_f41a7")
 roads = Array[PackedScene]([ExtResource("6_heqav"), ExtResource("3_2374i"), ExtResource("4_o1ieh"), ExtResource("5_tjb4q"), ExtResource("5_o7wrp"), ExtResource("4_iv0n1"), ExtResource("3_vc8va"), ExtResource("9_pscaq")])
-road_length = 25
+road_length = 50
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("7_urhx6")]
 

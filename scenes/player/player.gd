@@ -1,11 +1,15 @@
 class_name Player extends VehicleBody3D
 
+# Car related
+
 const STEER_SPEED = 2.5
-const STEER_LIMIT = 0.75
+const STEER_LIMIT = 0.15
 
 @export var engine_force_value: int = 40
 
 var steer_target: float = 0.0
+
+# Map related
 
 var start_bloc: StartBloc
 
@@ -18,7 +22,10 @@ var save_linear_velocity: Vector3 = Vector3.ZERO
 var save_linear_damp: float = 0.0
 var save_steering: float = 0.0
 
+# Control related
+
 var ended: bool = false
+var paused: bool = false
 
 @onready var fps_label: Label = %FPSLabel
 
@@ -37,7 +44,7 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
   var fwd_mps = (linear_velocity) * transform.basis.x
 
-  if not ended:
+  if not ended and not paused:
     steer_target = Input.get_action_strength("turn_left") - Input.get_action_strength("turn_right")
     steer_target *= STEER_LIMIT
 
@@ -66,11 +73,56 @@ func _physics_process(delta: float) -> void:
   else:
     engine_force = 0
     brake = 1.0
+  
+  # Turn left
+  if steer_target < 0:
+    # Accelerate right wheels
+    %Wheel_F_R.engine_force = engine_force / 2.0
+    %Wheel_B_R.engine_force = engine_force / 2.0
+    # Decelerate left wheels
+    %Wheel_F_L.engine_force = engine_force / 4.0
+    %Wheel_B_L.engine_force = engine_force / 4.0
+  # Turn right
+  elif steer_target > 0:
+    # Accelerate left wheels
+    %Wheel_F_L.engine_force = engine_force / 2.0
+    %Wheel_B_L.engine_force = engine_force / 2.0
+    # Decelerate right wheels
+    %Wheel_F_R.engine_force = engine_force / 4.0
+    %Wheel_B_R.engine_force = engine_force / 4.0
+  # Go straight
+  else:
+    # Accelerate all wheels
+    %Wheel_F_L.engine_force = engine_force / 2.0
+    %Wheel_F_R.engine_force = engine_force / 2.0
+    %Wheel_B_L.engine_force = engine_force / 2.0
+    %Wheel_B_R.engine_force = engine_force / 2.0
 
   steering = move_toward(steering, steer_target, STEER_SPEED * delta)
+  
+  if %Wheel_F_L.get_skidinfo() < 0.3:
+    %Wheel_F_L.get_node("DriftSmoke").emitting = true
+  else:
+    %Wheel_F_L.get_node("DriftSmoke").emitting = false
+  if %Wheel_F_R.get_skidinfo() < 0.3:
+    %Wheel_F_R.get_node("DriftSmoke").emitting = true
+  else:
+    %Wheel_F_R.get_node("DriftSmoke").emitting = false
+  if %Wheel_B_L.get_skidinfo() < 0.3:
+    %Wheel_B_L.get_node("DriftSmoke").emitting = true
+  else:
+    %Wheel_B_L.get_node("DriftSmoke").emitting = false
+  if %Wheel_B_R.get_skidinfo() < 0.3:
+    %Wheel_B_R.get_node("DriftSmoke").emitting = true
+  else:
+    %Wheel_B_R.get_node("DriftSmoke").emitting = false
 
-  if Input.is_action_just_pressed("ui_accept"):
-    respawn_last_saved_position()
+  if not ended and not paused:
+    if Input.is_action_just_pressed("ui_accept"):
+      respawn_last_saved_position()
+    
+    if Input.is_action_just_pressed("restart_map"):
+      restart_map()
 
 
 func _input(event: InputEvent) -> void:
@@ -122,6 +174,7 @@ func restart_map() -> void:
 
 func respawn_last_saved_position() -> void:
   set_physics_process(false)
+  set_physics_process_internal(false)
   inertia = Vector3(0, 0, 0)
   angular_velocity = Vector3(0, 0, 0)
   linear_velocity = Vector3(0, 0, 0)
@@ -129,6 +182,7 @@ func respawn_last_saved_position() -> void:
   steering = 0.0
   global_position = last_respawn_position
   global_transform.basis = last_respawn_basis
+  set_physics_process_internal(true)
   set_physics_process(true)
 
 
@@ -139,6 +193,7 @@ func lock() -> void:
   axis_lock_linear_x = true
   axis_lock_linear_y = true
   axis_lock_linear_z = true
+  paused = true
 
 
 func unlock() -> void:
@@ -148,6 +203,7 @@ func unlock() -> void:
   axis_lock_linear_x = false
   axis_lock_linear_y = false
   axis_lock_linear_z = false
+  paused = false
 
 
 func convert_timer_to_string() -> String:

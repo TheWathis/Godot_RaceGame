@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://cug0e6ajqr1df"]
+[gd_scene load_steps=20 format=3 uid="uid://cug0e6ajqr1df"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_57mxa"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
+[ext_resource type="PackedScene" uid="uid://bsvnh8f4yndmx" path="res://scenes/drift_smoke.tscn" id="3_16xs5"]
 
 [sub_resource type="Gradient" id="Gradient_ehij4"]
 offsets = PackedFloat32Array(0, 0.333, 0.667, 1)
@@ -126,15 +127,8 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ve4go")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_hvjgo"]
-size = Vector3(1, 0.4, 2)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_velxn"]
-radius = 0.25
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_so7vs"]
-radius = 0.1
-height = 1.0
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4bdny"]
+points = PackedVector3Array(0.575938, 0.124062, 0.401805, 0.354826, 0.548517, 1.29996, 0.476642, 0.182863, -1.29996, -0.579628, 0.426609, -0.202872, -0.35, 0.00334445, 1.2109, -0.430209, 0, -1.22349, -0.376438, 0.548517, 1.29996, 0.0627778, 0.627907, 0.213611, 0.334511, 0, 1.22349, 0.449161, 0, -1.22349, -0.457689, 0.182863, -1.29996, 0.557893, 0.426609, -0.202872, -0.583269, 0, 0.420448, 0.6, 0.00121832, 0.418873, -0.579628, 0.426609, -0.0404727, 0.557893, 0.426609, -0.0404727, -0.376438, 0.548517, 1.09683, 0.354826, 0.548517, 1.09683)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2rjr"]
 resource_name = "carTire"
@@ -271,10 +265,10 @@ func _physics_process(_delta):
 "
 
 [node name="Player" type="VehicleBody3D"]
-mass = 100.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0.2, 0)
 script = ExtResource("1_57mxa")
+engine_force_value = 100
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -386,6 +380,8 @@ text = "Next map seed:"
 [node name="NextSeed" type="LineEdit" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="EscapeScreen" type="Control" parent="Control"]
 unique_name_in_owner = true
@@ -437,63 +433,72 @@ mesh = SubResource("ArrayMesh_iomqm")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.111)
-shape = SubResource("BoxShape3D_hvjgo")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.5, 0.111)
-shape = SubResource("CapsuleShape3D_velxn")
-
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0, 0.1828, -0.88105)
-shape = SubResource("CapsuleShape3D_so7vs")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34997e-13, 0.1, 0)
+shape = SubResource("ConvexPolygonShape3D_4bdny")
 
 [node name="Wheel_B_L" type="VehicleWheel3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.3, 0.880114)
-engine_force = 3.0
 use_as_traction = true
+wheel_roll_influence = -2.0
 wheel_radius = 0.3
 wheel_rest_length = 0.1
-wheel_friction_slip = 1.5
+wheel_friction_slip = 5.0
 suspension_travel = 0.05
 suspension_stiffness = 200.0
+suspension_max_force = 800.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
+[node name="DriftSmoke" parent="Wheel_B_L" instance=ExtResource("3_16xs5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, 0)
+emitting = false
+
 [node name="wheel_backLeft" type="MeshInstance3D" parent="Wheel_B_L"]
-transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.15, 0, 0)
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.15, 0, -1.19209e-07)
 mesh = SubResource("ArrayMesh_svf23")
 skeleton = NodePath("")
 
 [node name="Wheel_B_R" type="VehicleWheel3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.3, 0.880114)
-engine_force = 3.0
 use_as_traction = true
+wheel_roll_influence = -2.0
 wheel_radius = 0.3
 wheel_rest_length = 0.1
-wheel_friction_slip = 1.5
+wheel_friction_slip = 5.0
 suspension_travel = 0.05
 suspension_stiffness = 200.0
+suspension_max_force = 4000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
+[node name="DriftSmoke" parent="Wheel_B_R" instance=ExtResource("3_16xs5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0, 1.19209e-07)
+emitting = false
+
 [node name="wheel_backRight" type="MeshInstance3D" parent="Wheel_B_R"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.15, 0, 1.19209e-07)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.15, 0, 2.38419e-07)
 mesh = SubResource("ArrayMesh_svf23")
 skeleton = NodePath("")
 
 [node name="Wheel_F_L" type="VehicleWheel3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.3, -0.639886)
-engine_force = 3.0
 use_as_traction = true
 use_as_steering = true
+wheel_roll_influence = -2.0
 wheel_radius = 0.3
 wheel_rest_length = 0.1
-wheel_friction_slip = 1.5
 suspension_travel = 0.05
 suspension_stiffness = 200.0
+suspension_max_force = 4000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
+
+[node name="DriftSmoke" parent="Wheel_F_L" instance=ExtResource("3_16xs5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, 0)
+emitting = false
 
 [node name="wheel_frontLeft" type="MeshInstance3D" parent="Wheel_F_L"]
 transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.15, 0, 0)
@@ -501,17 +506,22 @@ mesh = SubResource("ArrayMesh_svf23")
 skeleton = NodePath("")
 
 [node name="Wheel_F_R" type="VehicleWheel3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, 0.5, 0.3, -0.639886)
-engine_force = 3.0
 use_as_traction = true
 use_as_steering = true
+wheel_roll_influence = -2.0
 wheel_radius = 0.3
 wheel_rest_length = 0.1
-wheel_friction_slip = 1.5
 suspension_travel = 0.05
 suspension_stiffness = 200.0
+suspension_max_force = 4000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
+
+[node name="DriftSmoke" parent="Wheel_F_R" instance=ExtResource("3_16xs5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0, 0)
+emitting = false
 
 [node name="wheel_frontRight" type="MeshInstance3D" parent="Wheel_F_R"]
 transform = Transform3D(-1, 0, 8.9407e-08, 0, 1, 0, -8.9407e-08, 0, -1, 0.15, 0, 1.19209e-07)
@@ -525,6 +535,7 @@ autoplay = true
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 4)
+current = true
 script = SubResource("GDScript_gpq5r")
 max_distance = 8.0
 height = 4.0

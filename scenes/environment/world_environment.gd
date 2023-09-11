@@ -15,10 +15,10 @@ func _ready() -> void:
     GlobalSettings.ssil_updated.connect(_on_ssil_updated)
   if not GlobalSettings.sdfgi_updated.is_connected(_on_sdfgi_updated):
     GlobalSettings.sdfgi_updated.connect(_on_sdfgi_updated)
-  if not GlobalSettings.glow_updated.is_connected(_on_glow_updated):
-    GlobalSettings.glow_updated.connect(_on_glow_updated)
-  if not GlobalSettings.volumetric_fog_updated.is_connected(_on_volumetric_fog_updated):
-    GlobalSettings.volumetric_fog_updated.connect(_on_volumetric_fog_updated)
+  # if not GlobalSettings.glow_updated.is_connected(_on_glow_updated):
+  #   GlobalSettings.glow_updated.connect(_on_glow_updated)
+  # if not GlobalSettings.volumetric_fog_updated.is_connected(_on_volumetric_fog_updated):
+  #   GlobalSettings.volumetric_fog_updated.connect(_on_volumetric_fog_updated)
 
   match SaveSettings.game_settings["shadow_size"]:
     1:
@@ -51,8 +51,8 @@ func _ready() -> void:
   environment.ssao_enabled = SaveSettings.game_settings["ssao"] >= 1
   environment.ssil_enabled = SaveSettings.game_settings["ssil"] >= 1
   environment.sdfgi_enabled = SaveSettings.game_settings["sdfgi"] >= 1
-  environment.glow_enabled = SaveSettings.game_settings["glow"] >= 1
-  environment.volumetric_fog_enabled = SaveSettings.game_settings["volumetric_fog"] >= 1
+  # environment.glow_enabled = SaveSettings.game_settings["glow"] >= 1
+  # environment.volumetric_fog_enabled = SaveSettings.game_settings["volumetric_fog"] >= 1
 
 
 func _on_shadow_bias_updated(new_bias: float) -> void:
