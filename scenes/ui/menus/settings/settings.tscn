@@ -1,18 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2yb2umddwmwh"]
+[gd_scene load_steps=3 format=3 uid="uid://b2yb2umddwmwh"]
+
+[ext_resource type="Script" path="res://scenes/ui/menus/settings/settings.gd" id="1_sq7m1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w3j8l"]
 content_margin_left = 20.0
-content_margin_top = 50.0
+content_margin_top = 10.0
 content_margin_right = 20.0
 content_margin_bottom = 10.0
 bg_color = Color(0.231373, 0.231373, 0.231373, 0.768627)
 
 [node name="SettingsMenu" type="PanelContainer"]
-anchors_preset = 9
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 429.0
+grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_w3j8l")
+script = ExtResource("1_sq7m1")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
@@ -79,6 +83,7 @@ theme_override_font_sizes/font_size = 16
 text = "UI Scale:"
 
 [node name="UIScaleOptionButton" type="OptionButton" parent="ScrollContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
@@ -112,6 +117,7 @@ theme_override_font_sizes/font_size = 16
 text = "Resolution Scale:"
 
 [node name="QualitySlider" type="HSlider" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -127,6 +133,7 @@ theme_override_font_sizes/font_size = 16
 text = "Display Filter:"
 
 [node name="FilterOptionButton" type="OptionButton" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
@@ -162,15 +169,18 @@ theme_override_font_sizes/font_size = 16
 text = "Fullscreen:"
 
 [node name="FullscreenOptionButton" type="OptionButton" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
-item_count = 2
+item_count = 3
 selected = 0
 popup/item_0/text = "Disabled"
 popup/item_0/id = 0
-popup/item_1/text = "Enabled"
+popup/item_1/text = "Bordless"
 popup/item_1/id = 1
+popup/item_2/text = "Enabled"
+popup/item_2/id = 2
 
 [node name="VsyncLabel" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
@@ -179,6 +189,7 @@ theme_override_font_sizes/font_size = 16
 text = "V-Sync:"
 
 [node name="VsyncOptionButton" type="OptionButton" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
@@ -256,6 +267,7 @@ theme_override_font_sizes/font_size = 16
 text = "Field of View:"
 
 [node name="FOVSlider" type="HSlider" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -377,6 +389,7 @@ popup/item_2/text = "High (Slow)"
 popup/item_2/id = 2
 
 [node name="GlowLabel" type="Label" parent="ScrollContainer/VBoxContainer/Environment"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
@@ -384,6 +397,7 @@ text = "Bloom:"
 
 [node name="GlowOptionButton" type="OptionButton" parent="ScrollContainer/VBoxContainer/Environment"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
@@ -467,6 +481,7 @@ popup/item_4/text = "High (Slower)"
 popup/item_4/id = 4
 
 [node name="VolumetricFogLabel" type="Label" parent="ScrollContainer/VBoxContainer/Environment"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
@@ -474,6 +489,7 @@ text = "Volumetric Fog:"
 
 [node name="VolumetricFogOptionButton" type="OptionButton" parent="ScrollContainer/VBoxContainer/Environment"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
@@ -486,57 +502,27 @@ popup/item_1/id = 1
 popup/item_2/text = "High (Average)"
 popup/item_2/id = 2
 
-[node name="AdjustmentSection" type="Label" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.683425, 0.916893, 1, 1)
-text = "Adjustments"
-horizontal_alignment = 1
-
-[node name="Adjustments" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-columns = 2
-
-[node name="BrightnessLabel" type="Label" parent="ScrollContainer/VBoxContainer/Adjustments"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 16
-text = "Brightness:"
-
-[node name="BrightnessSlider" type="HSlider" parent="ScrollContainer/VBoxContainer/Adjustments"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-min_value = 0.5
-max_value = 2.0
-step = 0.01
-value = 1.0
-
-[node name="ContrastLabel" type="Label" parent="ScrollContainer/VBoxContainer/Adjustments"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 16
-text = "Contrast:"
-
-[node name="ContrastSlider" type="HSlider" parent="ScrollContainer/VBoxContainer/Adjustments"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-min_value = 0.5
-max_value = 2.0
-step = 0.01
-value = 1.0
-
-[node name="SaturationLabel" type="Label" parent="ScrollContainer/VBoxContainer/Adjustments"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 16
-text = "Saturation:"
-
-[node name="SaturationSlider" type="HSlider" parent="ScrollContainer/VBoxContainer/Adjustments"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-min_value = 0.01
-max_value = 2.0
-step = 0.01
-value = 1.0
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Presets/VeryLowPreset" to="." method="_on_very_low_preset_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Presets/LowPreset" to="." method="_on_low_preset_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Presets/MediumPreset" to="." method="_on_medium_preset_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Presets/HighPreset" to="." method="_on_high_preset_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Presets/UltraPreset" to="." method="_on_ultra_preset_pressed"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer/UIScaleOptionButton" to="." method="_on_ui_scale_option_button_item_selected"]
+[connection signal="value_changed" from="ScrollContainer/VBoxContainer/GridContainer2/QualitySlider" to="." method="_on_quality_slider_value_changed"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer2/FilterOptionButton" to="." method="_on_filter_option_button_item_selected"]
+[connection signal="value_changed" from="ScrollContainer/VBoxContainer/GridContainer2/FSRSharpnessSlider" to="." method="_on_fsr_sharpness_slider_value_changed"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer2/FullscreenOptionButton" to="." method="_on_fullscreen_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer2/VsyncOptionButton" to="." method="_on_vsync_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer2/TAAOptionButton" to="." method="_on_taa_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer2/MSAAOptionButton" to="." method="_on_msaa_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer2/FXAAOptionButton" to="." method="_on_fxaa_option_button_item_selected"]
+[connection signal="value_changed" from="ScrollContainer/VBoxContainer/GridContainer2/FOVSlider" to="." method="_on_fov_slider_value_changed"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer4/ShadowSizeOptionButton" to="." method="_on_shadow_size_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer4/ShadowFilterOptionButton" to="." method="_on_shadow_filter_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/GridContainer4/MeshLODOptionButton" to="." method="_on_mesh_lod_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/Environment/SDFGIOptionButton" to="." method="_on_sdfgi_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/Environment/GlowOptionButton" to="." method="_on_glow_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/Environment/SSAOOptionButton" to="." method="_on_ssao_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/Environment/SSReflectionsOptionButton" to="." method="_on_ss_reflections_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/Environment/SSILOptionButton" to="." method="_on_ssil_option_button_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/Environment/VolumetricFogOptionButton" to="." method="_on_volumetric_fog_option_button_item_selected"]

@@ -20,6 +20,8 @@ var save_steering: float = 0.0
 
 var ended: bool = false
 
+@onready var fps_label: Label = %FPSLabel
+
 func _ready() -> void:
   %Seed.text = str(Random.rng.seed)
   %Camera3D.current = true
@@ -27,6 +29,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
   %Timer.text = convert_timer_to_string()
+  
+  fps_label.text = "%d FPS (%.2f mspf)" % [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
+  fps_label.modulate = fps_label.get_meta("Gradient").sample(remap(Engine.get_frames_per_second(), 0, 180, 0.0, 1.0))
 
 
 func _physics_process(delta: float) -> void:

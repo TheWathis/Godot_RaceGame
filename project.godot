@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.1", "Forward Plus")
 boot_splash/image="res://assets/icon-alternative-dark.png"
 config/icon="res://assets/ico.svg"
 
+[audio]
+
+driver/output_latency=50
+
 [autoload]
 
 Random="*res://autoloads/random.gd"
@@ -50,6 +54,5 @@ turn_right={
 
 [rendering]
 
-anti_aliasing/quality/msaa_2d=2
 anti_aliasing/quality/msaa_3d=2
 anti_aliasing/quality/screen_space_aa=1

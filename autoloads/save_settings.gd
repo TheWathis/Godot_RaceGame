@@ -33,23 +33,43 @@ var game_settings: Dictionary = DEFAULT_SETTINGS.duplicate(true)
 
 func _ready() -> void:
   load_data()
-  # Graphics
-  GlobalSettings.toggle_full_screen(game_settings["fullscreen_on"])
-  GlobalSettings.toggle_display_fps(game_settings["display_fps"])
-  GlobalSettings.toggle_vsync(game_settings["vsync_on"])
-  GlobalSettings.set_max_fps(game_settings["max_fps"])
-  ## Anti-aliasing
-  GlobalSettings.toggle_use_taa(game_settings["use_taa"])
-  GlobalSettings.set_msaa_2d(game_settings["msaa_2d"])
-  GlobalSettings.set_msaa_3d(game_settings["msaa_3d"])
-  GlobalSettings.set_screen_space_aa(game_settings["screen_space_aa"])
-  # Audio
-  GlobalSettings.toggle_master_mute(game_settings["master_mute"])
-  GlobalSettings.toggle_music_mute(game_settings["music_mute"])
-  GlobalSettings.toggle_sfx_mute(game_settings["sfx_mute"])
-  GlobalSettings.update_master_volume(game_settings["master_volume"])
-  GlobalSettings.update_music_volume(game_settings["music_volume"])
-  GlobalSettings.update_sfx_volume(game_settings["sfx_volume"])
+  
+  var viewport_size: Vector2i = Vector2i(
+    ProjectSettings.get_setting(&"display/window/size/viewport_width"),
+    ProjectSettings.get_setting(&"display/window/size/viewport_height")
+  )
+  if game_settings["ui_scale"] == 0: # Smaller (66%)
+    viewport_size *= 1.5
+  elif game_settings["ui_scale"] == 1: # Small (80%)
+    viewport_size *= 1.25
+  elif game_settings["ui_scale"] == 2: # Medium (100%) (default)
+    viewport_size *= 1.0
+  elif game_settings["ui_scale"] == 3: # Large (133%)
+    viewport_size *= 0.75
+  elif game_settings["ui_scale"] == 4: # Larger (200%)
+    viewport_size *= 0.5
+  
+  GlobalSettings.set_ui_scale(viewport_size)
+  GlobalSettings.set_display_fps(game_settings["display_fps"])
+  GlobalSettings.set_resolution_scale(game_settings["resolution_scale"])
+  GlobalSettings.set_scaling_mode(game_settings["display_filter"])
+  GlobalSettings.set_fsr_sharpness(2.0 - game_settings["fsr_sharpness"])
+  GlobalSettings.set_window_mode(game_settings["fullscreen"])
+  GlobalSettings.set_vsync_mode(game_settings["vsync"])
+  GlobalSettings.set_msaa(game_settings["msaa"])
+  GlobalSettings.set_taa(game_settings["taa"] == 1)
+  GlobalSettings.set_fxaa(game_settings["fxaa"] == 1)
+  GlobalSettings.set_fov(game_settings["fov"])
+  GlobalSettings.set_max_fps(0)#game_settings["max_fps"])
+  GlobalSettings.set_shadow_size(game_settings["shadow_size"])
+  GlobalSettings.set_shadow_filter(game_settings["shadow_filter"])
+  GlobalSettings.set_mesh_lod(game_settings["mesh_lod"])
+  GlobalSettings.set_ss_reflections(game_settings["ss_reflections"])
+  GlobalSettings.set_ssao(game_settings["ssao"])
+  GlobalSettings.set_ssil(game_settings["ssil"])
+  GlobalSettings.set_sdfgi(game_settings["sdfgi"])
+  # GlobalSettings.set_glow(game_settings["glow"])
+  # GlobalSettings.set_volumetric_fog(game_settings["volumetric_fog"])
 
 
 ## Load the settings from the settings file

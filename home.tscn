@@ -1,15 +1,32 @@
-[gd_scene load_steps=26 format=3 uid="uid://cg8y05aj78yvc"]
+[gd_scene load_steps=31 format=3 uid="uid://cg8y05aj78yvc"]
 
 [ext_resource type="Script" path="res://home.gd" id="1_knx7k"]
 [ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://world_environment.tscn" id="2_1lxeg"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_2qyew"]
 [ext_resource type="PackedScene" uid="uid://bsaye3at58vna" path="res://scenes/blocs/road_curve_right/road_curve_right.tscn" id="2_nvdj5"]
 [ext_resource type="AudioStream" uid="uid://du6165v7h5ghu" path="res://assets/musics/Chiptune Happy main.wav" id="4_osooy"]
+[ext_resource type="PackedScene" uid="uid://b2yb2umddwmwh" path="res://scenes/ui/menus/settings/settings.tscn" id="6_t7uq3"]
+[ext_resource type="Script" path="res://scenes/player/fov_camera.gd" id="6_u1874"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nf5bf"]
 font_size = 64
 shadow_size = 4
 shadow_color = Color(0, 0, 0, 0.592157)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_oa0lo"]
+sky_top_color = Color(0.266667, 0.447059, 0.721569, 1)
+sky_horizon_color = Color(0.560784, 0.670588, 0.756863, 1)
+sky_curve = 0.0477961
+ground_bottom_color = Color(0.12549, 0.196078, 0.113725, 1)
+ground_horizon_color = Color(0.321569, 0.654902, 0.321569, 1)
+
+[sub_resource type="Sky" id="Sky_8fxrv"]
+sky_material = SubResource("ProceduralSkyMaterial_oa0lo")
+
+[sub_resource type="Environment" id="Environment_37euw"]
+background_mode = 2
+sky = SubResource("Sky_8fxrv")
+volumetric_fog_density = 0.005
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q75um"]
 friction = 0.5
@@ -237,7 +254,7 @@ size = Vector3(100, 1, 100)
 [node name="Home" type="Node3D"]
 script = ExtResource("1_knx7k")
 
-[node name="Control" type="Control" parent="."]
+[node name="MainMenu" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -245,7 +262,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="Control"]
+[node name="HomeMenu" type="Control" parent="MainMenu"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -253,41 +271,79 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="MainMenu/HomeMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/HomeMenu/CenterContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "RaceGame"
 label_settings = SubResource("LabelSettings_nf5bf")
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="Control/CenterContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Seed" type="LineEdit" parent="Control/CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="Seed" type="LineEdit" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
 placeholder_text = "Your Seed"
 
-[node name="Generate" parent="Control/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
+[node name="Generate" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
 layout_mode = 2
 text = "Generate new seed"
 
-[node name="Play" parent="Control/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
+[node name="Play" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
 layout_mode = 2
 text = "Play this seed"
 
-[node name="Quit" parent="Control/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
+[node name="Settings" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
+layout_mode = 2
+text = "Settings
+"
+
+[node name="Quit" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
 layout_mode = 2
 text = "Quit"
 
+[node name="SettingsContainer" type="MarginContainer" parent="MainMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="SettingsMenu" parent="MainMenu/SettingsContainer" instance=ExtResource("6_t7uq3")]
+layout_mode = 2
+
+[node name="BackHome" parent="MainMenu/SettingsContainer" instance=ExtResource("2_2qyew")]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Return to home"
+
 [node name="WorldEnvironment" parent="." instance=ExtResource("2_1lxeg")]
+environment = SubResource("Environment_37euw")
 
 [node name="Player" type="VehicleBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 6)
@@ -419,18 +475,25 @@ visible = false
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, -2, 3, 0)
+script = ExtResource("6_u1874")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 1
 stream = ExtResource("4_osooy")
 volume_db = -80.0
 autoplay = true
 bus = &"Music"
 
-[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/VBoxContainer/Generate" to="." method="_on_generate_pressed"]
-[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Generate" to="." method="_on_generate_pressed"]
+[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MainMenu/SettingsContainer/BackHome" to="." method="_on_back_home_pressed"]
 
+[editable path="WorldEnvironment"]
 [editable path="RoadCurveRight"]
 [editable path="RoadCurveRight2"]
 [editable path="RoadCurveRight3"]

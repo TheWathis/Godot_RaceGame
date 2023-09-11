@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://8twq3xx71nt6"]
+[gd_scene load_steps=5 format=3 uid="uid://8twq3xx71nt6"]
+
+[ext_resource type="Script" path="res://world_environment.gd" id="1_mi83e"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lbkc4"]
 sky_top_color = Color(0.266667, 0.447059, 0.721569, 1)
@@ -15,9 +17,11 @@ background_mode = 2
 sky = SubResource("Sky_po1fj")
 ssr_enabled = true
 ssao_enabled = true
+volumetric_fog_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("Environment_7s1cn")
+script = ExtResource("1_mi83e")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 15, 0)

@@ -2,8 +2,8 @@ extends Node
 
 # Signals ##########################################################################################
 
-signal fov_updated(new_fov: float)
 signal display_fps_updated(display_fps: bool)
+signal fov_updated(new_fov: float)
 signal shadow_bias_updated(new_bias: float)
 signal ssr_updated(enabled: bool, steps: int)
 signal ssao_updated(enabled: bool)
@@ -41,7 +41,7 @@ func set_scaling_mode(value: int) -> void:
 func set_fsr_sharpness(value: float) -> void:
   RenderingServer.viewport_set_fsr_sharpness(get_viewport().get_viewport_rid(), value)
 
-func toggle_full_screen(value: int) -> void:
+func set_window_mode(value: int) -> void:
   match value:
     1:
       DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
@@ -50,7 +50,7 @@ func toggle_full_screen(value: int) -> void:
     _, 0:
       DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
-func toggle_vsync(value: int) -> void:
+func set_vsync_mode(value: int) -> void:
   # Missing:
   # DisplayServer.VSYNC_MAILBOX
   match value:
@@ -62,12 +62,28 @@ func toggle_vsync(value: int) -> void:
       DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 func set_msaa(value: int) -> void:
-  RenderingServer.viewport_set_msaa_3d(get_viewport().get_viewport_rid(), value)
+  match value:
+    1:
+      RenderingServer.viewport_set_msaa_3d(
+        get_viewport().get_viewport_rid(), RenderingServer.VIEWPORT_MSAA_2X
+      )
+    2:
+      RenderingServer.viewport_set_msaa_3d(
+        get_viewport().get_viewport_rid(), RenderingServer.VIEWPORT_MSAA_4X
+      )
+    3:
+      RenderingServer.viewport_set_msaa_3d(
+        get_viewport().get_viewport_rid(), RenderingServer.VIEWPORT_MSAA_8X
+      )
+    _, 0:
+      RenderingServer.viewport_set_msaa_3d(
+        get_viewport().get_viewport_rid(), RenderingServer.VIEWPORT_MSAA_DISABLED
+      )
 
-func use_taa(value: bool) -> void:
+func set_taa(value: bool) -> void:
   RenderingServer.viewport_set_use_taa(get_viewport().get_viewport_rid(), value)
 
-func use_fxaa(value: bool) -> void:
+func set_fxaa(value: bool) -> void:
   RenderingServer.viewport_set_screen_space_aa(get_viewport().get_viewport_rid(), int(value))
 
 func set_fov(value: float) -> void:
@@ -165,25 +181,30 @@ func set_shadow_filter(value: int) -> void:
 func set_mesh_lod(value: int) -> void:
   match value:
     1:
-      RenderingServer.reflection_probe_set_mesh_lod_threshold(
-        get_viewport().get_viewport_rid(), 4.0
-      )
+      get_viewport().mesh_lod_threshold = 4.0
+      # RenderingServer.reflection_probe_set_mesh_lod_threshold(
+      #   get_viewport().get_viewport_rid(), 4.0
+      # )
     2:
-      RenderingServer.reflection_probe_set_mesh_lod_threshold(
-        get_viewport().get_viewport_rid(), 2.0
-      )
+      get_viewport().mesh_lod_threshold = 2.0
+      # RenderingServer.reflection_probe_set_mesh_lod_threshold(
+      #   get_viewport().get_viewport_rid(), 2.0
+      # )
     3:
-      RenderingServer.reflection_probe_set_mesh_lod_threshold(
-        get_viewport().get_viewport_rid(), 1.0
-      )
+      get_viewport().mesh_lod_threshold = 1.0
+      # RenderingServer.reflection_probe_set_mesh_lod_threshold(
+      #   get_viewport().get_viewport_rid(), 1.0
+      # )
     4:
-      RenderingServer.reflection_probe_set_mesh_lod_threshold(
-        get_viewport().get_viewport_rid(), 0.0
-      )
+      get_viewport().mesh_lod_threshold = 0.0
+      # RenderingServer.reflection_probe_set_mesh_lod_threshold(
+      #   get_viewport().get_viewport_rid(), 0.0
+      # )
     _, 0:
-      RenderingServer.reflection_probe_set_mesh_lod_threshold(
-        get_viewport().get_viewport_rid(), 8.0
-      )
+      get_viewport().mesh_lod_threshold = 8.0
+      # RenderingServer.reflection_probe_set_mesh_lod_threshold(
+      #   get_viewport().get_viewport_rid(), 8.0
+      # )
 
 # Effect settings ##################################################################################
 
@@ -194,7 +215,7 @@ func set_ss_reflections(value: int) -> void:
     2:
       ssr_updated.emit(true, 32)
     3:
-      ssr_updated.emit(true, 56)
+      ssr_updated.emit(true, 64)
     _, 0:
       ssr_updated.emit(false, 0)
 
