@@ -42,7 +42,8 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-  var fwd_mps = (linear_velocity) * transform.basis.x
+  var fwd_mps: Vector3 = (linear_velocity) * transform.basis.x
+  var desired_engine_force: float = 0.0
 
   if not ended and not paused:
     steer_target = Input.get_action_strength("turn_left") - Input.get_action_strength("turn_right")
@@ -52,51 +53,58 @@ func _physics_process(delta: float) -> void:
       # Increase engine force at low speeds to make the initial acceleration faster.
       var speed: float = linear_velocity.length()
       if speed < 5 and speed != 0:
-        engine_force = clamp(engine_force_value * 5 / speed, 0, 100)
+        desired_engine_force = clamp(engine_force_value * 5 / speed, 0, 100)
       else:
-        engine_force = engine_force_value
+        desired_engine_force = engine_force_value
     else:
-      engine_force = 0
+      desired_engine_force = 0
 
     if Input.is_action_pressed("brake"):
+      if not %Wheel_F_L.is_in_contact() \
+        and not %Wheel_F_R.is_in_contact() \
+        and not %Wheel_B_L.is_in_contact() \
+        and not %Wheel_B_R.is_in_contact():
+        # If the car is in the air, stabilize it.
+        angular_velocity = Vector3(0, 0, 0)
+        
       # Increase engine force at low speeds to make the initial acceleration faster.
       if fwd_mps.length() >= -1:
         var speed: float = linear_velocity.length()
         if speed < 5 and speed != 0:
-          engine_force = -clamp(engine_force_value * 5 / speed, 0, 100)
+          desired_engine_force = -clamp(engine_force_value * 5 / speed, 0, 100)
         else:
-          engine_force = -engine_force_value
+          desired_engine_force = -engine_force_value
       else:
         brake = 1.0
     else:
       brake = 0.0
   else:
-    engine_force = 0
+    desired_engine_force = 0
     brake = 1.0
   
   # Turn left
   if steer_target < 0:
     # Accelerate right wheels
-    %Wheel_F_R.engine_force = engine_force / 2.0
-    %Wheel_B_R.engine_force = engine_force / 2.0
+    %Wheel_F_R.engine_force = desired_engine_force / 2.0
+    %Wheel_B_R.engine_force = desired_engine_force / 2.0
     # Decelerate left wheels
-    %Wheel_F_L.engine_force = engine_force / 4.0
-    %Wheel_B_L.engine_force = engine_force / 4.0
+    %Wheel_F_L.engine_force = desired_engine_force / 4.0
+    %Wheel_B_L.engine_force = desired_engine_force / 4.0
   # Turn right
   elif steer_target > 0:
     # Accelerate left wheels
-    %Wheel_F_L.engine_force = engine_force / 2.0
-    %Wheel_B_L.engine_force = engine_force / 2.0
+    %Wheel_F_L.engine_force = desired_engine_force / 2.0
+    %Wheel_B_L.engine_force = desired_engine_force / 2.0
     # Decelerate right wheels
-    %Wheel_F_R.engine_force = engine_force / 4.0
-    %Wheel_B_R.engine_force = engine_force / 4.0
+    %Wheel_F_R.engine_force = desired_engine_force / 4.0
+    %Wheel_B_R.engine_force = desired_engine_force / 4.0
   # Go straight
   else:
     # Accelerate all wheels
-    %Wheel_F_L.engine_force = engine_force / 2.0
-    %Wheel_F_R.engine_force = engine_force / 2.0
-    %Wheel_B_L.engine_force = engine_force / 2.0
-    %Wheel_B_R.engine_force = engine_force / 2.0
+    %Wheel_F_L.engine_force = desired_engine_force / 2.0
+    %Wheel_F_R.engine_force = desired_engine_force / 2.0
+    %Wheel_B_L.engine_force = desired_engine_force / 2.0
+    %Wheel_B_R.engine_force = desired_engine_force / 2.0
 
   steering = move_toward(steering, steer_target, STEER_SPEED * delta)
   

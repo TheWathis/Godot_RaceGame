@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://cug0e6ajqr1df"]
 
-[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_57mxa"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_3sh34"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
 [ext_resource type="PackedScene" uid="uid://bsvnh8f4yndmx" path="res://scenes/drift_smoke.tscn" id="3_16xs5"]
 
@@ -127,8 +127,8 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ve4go")
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4bdny"]
-points = PackedVector3Array(0.575938, 0.124062, 0.401805, 0.354826, 0.548517, 1.29996, 0.476642, 0.182863, -1.29996, -0.579628, 0.426609, -0.202872, -0.35, 0.00334445, 1.2109, -0.430209, 0, -1.22349, -0.376438, 0.548517, 1.29996, 0.0627778, 0.627907, 0.213611, 0.334511, 0, 1.22349, 0.449161, 0, -1.22349, -0.457689, 0.182863, -1.29996, 0.557893, 0.426609, -0.202872, -0.583269, 0, 0.420448, 0.6, 0.00121832, 0.418873, -0.579628, 0.426609, -0.0404727, 0.557893, 0.426609, -0.0404727, -0.376438, 0.548517, 1.09683, 0.354826, 0.548517, 1.09683)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5k0xc"]
+points = PackedVector3Array(0.6, 0.099996, 0.43448, 0.349922, 0.536016, 1.27989, 0.6, 0, 0.43448, 0.6, 0.099996, -0.165624, 0.549961, 0.388529, -0.0656481, -0.350039, 0.536016, 1.27989, 0.349922, 0, 1.27989, 0.549961, 0.388529, -0.165624, 0.0669538, 0.632544, 0.102982, 0.0669538, 0.632544, 0.202958, 0.6, 0, -0.165624, 0.449883, 0.149963, -1.27989, -0.6, 0.099996, 0.43448, -0.350039, 0, 1.27989, -0.0670713, 0.632544, 0.202958, -0.0670713, 0.632544, 0.102982, -0.550078, 0.388529, -0.165624, -0.550078, 0.388529, -0.0656481, 0.45, 0, -1.2, -0.45, 0.15, -1.28, -0.6, 0, 0.43448, -0.6, 0.099996, -0.165624, -0.45, 0, -1.2, -0.6, 0, -0.165624)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2rjr"]
 resource_name = "carTire"
@@ -267,7 +267,7 @@ func _physics_process(_delta):
 [node name="Player" type="VehicleBody3D"]
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0.2, 0)
-script = ExtResource("1_57mxa")
+script = ExtResource("1_3sh34")
 engine_force_value = 100
 
 [node name="Control" type="Control" parent="."]
@@ -434,15 +434,14 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34997e-13, 0.1, 0)
-shape = SubResource("ConvexPolygonShape3D_4bdny")
+shape = SubResource("ConvexPolygonShape3D_5k0xc")
 
 [node name="Wheel_B_L" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.3, 0.880114)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.35, 0.880114)
 use_as_traction = true
 wheel_roll_influence = -2.0
 wheel_radius = 0.3
-wheel_rest_length = 0.1
 wheel_friction_slip = 5.0
 suspension_travel = 0.05
 suspension_stiffness = 200.0
@@ -461,11 +460,10 @@ skeleton = NodePath("")
 
 [node name="Wheel_B_R" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.3, 0.880114)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.35, 0.880114)
 use_as_traction = true
 wheel_roll_influence = -2.0
 wheel_radius = 0.3
-wheel_rest_length = 0.1
 wheel_friction_slip = 5.0
 suspension_travel = 0.05
 suspension_stiffness = 200.0
@@ -484,12 +482,11 @@ skeleton = NodePath("")
 
 [node name="Wheel_F_L" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.3, -0.639886)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.35, -0.639886)
 use_as_traction = true
 use_as_steering = true
 wheel_roll_influence = -2.0
 wheel_radius = 0.3
-wheel_rest_length = 0.1
 suspension_travel = 0.05
 suspension_stiffness = 200.0
 suspension_max_force = 4000.0
@@ -507,12 +504,11 @@ skeleton = NodePath("")
 
 [node name="Wheel_F_R" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, 0.5, 0.3, -0.639886)
+transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, 0.5, 0.35, -0.639886)
 use_as_traction = true
 use_as_steering = true
 wheel_roll_influence = -2.0
 wheel_radius = 0.3
-wheel_rest_length = 0.1
 suspension_travel = 0.05
 suspension_stiffness = 200.0
 suspension_max_force = 4000.0
