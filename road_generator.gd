@@ -12,9 +12,12 @@ var end: PackedScene = preload("res://scenes/blocs/end/end.tscn")
 
 # var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
+# Current road length, used to not generate roads too long
 var _current_road_length: int = 0
 # Current road height, used to not generate roads below the ground
 var _current_road_height: int = 0
+# Road length without checkpoint, used to not generate too many roads without checkpoint
+var _road_length_without_checkpoint: int = 0
 
 func _generate(_value: bool = true) -> void:
   _clear()
@@ -33,24 +36,31 @@ func _generate(_value: bool = true) -> void:
   var possible_blocs: Array[PackedScene] = roads.duplicate()
   while empty_connectors.size() != 0 and possible_blocs.size() != 0:
     var connector = empty_connectors[0]
+    # Should we add a checkpoint? (100% after 15 roads)
+    var checkpoint_probability: float = _road_length_without_checkpoint / 15.0
+    if Random.rng.randf_range(0.0, 1.0) < checkpoint_probability:
+      # Remove the current connector
+      empty_connectors.erase(connector)
+      connector = _add_checkpoint(connector)
+      # Add the connector, which can be the checkpoint or the same as before
+      empty_connectors.append(connector)
+    
     await get_tree().create_timer(0.005).timeout
+
     # Add a road
     var road: PackedScene = possible_blocs[Random.rng.randi_range(0, possible_blocs.size() - 1)]
-    # var road: PackedScene = possible_blocs[rng.randi_range(0, possible_blocs.size() - 1)]
     var road_instance: Bloc = road.instantiate()
 
-    if _current_road_height + road_instance.height_delta >= 0:
-      _current_road_height += road_instance.height_delta
-      # print("Road height ok (" + str(_current_road_height) + ") with " + str(road_instance))
-    else:
-      # print("Road too low with " + str(road_instance))
+    if _current_road_height + road_instance.height_delta < 0:
       possible_blocs.erase(road)
       continue
     
     add_child(road_instance)
 
     if road_instance.connect_to(connector):
+      _current_road_height += road_instance.height_delta
       _current_road_length += 1
+      _road_length_without_checkpoint += 1
       possible_blocs = roads.duplicate()
     else:
       # print("Can't connect " + str(road_instance))
@@ -75,10 +85,22 @@ func _generate(_value: bool = true) -> void:
     await get_tree().create_timer(0.005).timeout
   
   # print("Roads generated")
-  # print("Road length: " + str(_current_road_length))
-  # print("Road height: " + str(_current_road_height))
   %SpectatorCamera.current = false
   start_bloc.place_player()
+
+
+func _add_checkpoint(connector: Connector) -> Connector:
+  var checkpoint_instance: Bloc = checkpoint.instantiate()
+  add_child(checkpoint_instance)
+  if checkpoint_instance.connect_to(connector):
+    _road_length_without_checkpoint = 0
+    get_parent().checkpoints.append(checkpoint_instance)
+    return checkpoint_instance.get_empty_connectors()[0]
+  else:
+    # print("Can't connect " + str(checkpoint_instance))
+    _road_length_without_checkpoint += 1
+    checkpoint_instance.queue_free()
+    return connector
 
 
 func _clear(_value: bool = true) -> void:

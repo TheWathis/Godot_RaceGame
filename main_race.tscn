@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://daeqf725r5hs0"]
+[gd_scene load_steps=23 format=3 uid="uid://daeqf725r5hs0"]
 
 [ext_resource type="Script" path="res://road_generator.gd" id="1_f41a7"]
 [ext_resource type="PackedScene" uid="uid://c4ciies80nty6" path="res://scenes/blocs/road_bend_left/road_bend_left.tscn" id="3_2374i"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://bmrqu815ytcot" path="res://scenes/blocs/road_curve_left/road_curve_left.tscn" id="5_tjb4q"]
 [ext_resource type="PackedScene" uid="uid://8nw746thkdiv" path="res://scenes/blocs/road/road.tscn" id="6_heqav"]
 [ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://scenes/environment/world_environment.tscn" id="7_urhx6"]
-[ext_resource type="PackedScene" uid="uid://cpd6evghi2ihj" path="res://scenes/blocs/checkpoint/checkpoint.tscn" id="9_pscaq"]
 [ext_resource type="AudioStream" uid="uid://cyt7cb7spkct6" path="res://assets/musics/Chiptune Action Cool main.wav" id="11_061fw"]
 [ext_resource type="AudioStream" uid="uid://bpgipwl27358s" path="res://assets/musics/Chiptune Action Fun main.wav" id="12_i4y6x"]
 [ext_resource type="AudioStream" uid="uid://c8uy7v61nyolc" path="res://assets/musics/Chiptune Chilled Fun main.wav" id="13_ofifw"]
@@ -17,6 +16,9 @@
 
 [sub_resource type="GDScript" id="GDScript_1twkq"]
 script/source = "extends Node3D
+
+
+var checkpoints: Array[Checkpoint] = []
 
 
 func _ready() -> void:
@@ -74,7 +76,7 @@ script = SubResource("GDScript_1twkq")
 
 [node name="Node3D" type="Node3D" parent="."]
 script = ExtResource("1_f41a7")
-roads = Array[PackedScene]([ExtResource("6_heqav"), ExtResource("3_2374i"), ExtResource("4_o1ieh"), ExtResource("5_tjb4q"), ExtResource("5_o7wrp"), ExtResource("4_iv0n1"), ExtResource("3_vc8va"), ExtResource("9_pscaq")])
+roads = Array[PackedScene]([ExtResource("6_heqav"), ExtResource("3_2374i"), ExtResource("4_o1ieh"), ExtResource("5_tjb4q"), ExtResource("5_o7wrp"), ExtResource("4_iv0n1"), ExtResource("3_vc8va")])
 road_length = 50
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("7_urhx6")]
