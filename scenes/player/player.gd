@@ -5,7 +5,7 @@ class_name Player extends VehicleBody3D
 const STEER_SPEED = 2.5
 const STEER_LIMIT = 0.15
 
-@export var engine_force_value: int = 40
+@export var engine_force_value: int = 200
 
 var steer_target: float = 0.0
 
@@ -42,7 +42,7 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-  var fwd_mps: Vector3 = (linear_velocity) * transform.basis.x
+  var forward_movement: Vector3 = linear_velocity * transform.basis.z
   var desired_engine_force: float = 0.0
 
   if not ended and not paused:
@@ -68,7 +68,7 @@ func _physics_process(delta: float) -> void:
         angular_velocity = Vector3(0, 0, 0)
         
       # Increase engine force at low speeds to make the initial acceleration faster.
-      if fwd_mps.length() >= -1:
+      if forward_movement.length() >= -1:
         var speed: float = linear_velocity.length()
         if speed < 5 and speed != 0:
           desired_engine_force = -clamp(engine_force_value * 5 / speed, 0, 100)
@@ -81,23 +81,29 @@ func _physics_process(delta: float) -> void:
   else:
     desired_engine_force = 0
     brake = 1.0
-  
+
+  # If the car is moving on their basis z axis, apply a downforce to the car.
+  if forward_movement.length() > 0.1:
+    constant_force = Vector3(0, -clamp(linear_velocity.length(), 0.0, 25.0) * 80, 0)
+  else:
+    constant_force = Vector3(0, 0, 0)
+
   # Turn left
   if steer_target < 0:
     # Accelerate right wheels
     %Wheel_F_R.engine_force = desired_engine_force / 2.0
     %Wheel_B_R.engine_force = desired_engine_force / 2.0
     # Decelerate left wheels
-    %Wheel_F_L.engine_force = desired_engine_force / 4.0
-    %Wheel_B_L.engine_force = desired_engine_force / 4.0
+    %Wheel_F_L.engine_force = desired_engine_force / 8.0
+    %Wheel_B_L.engine_force = desired_engine_force / 8.0
   # Turn right
   elif steer_target > 0:
     # Accelerate left wheels
     %Wheel_F_L.engine_force = desired_engine_force / 2.0
     %Wheel_B_L.engine_force = desired_engine_force / 2.0
     # Decelerate right wheels
-    %Wheel_F_R.engine_force = desired_engine_force / 4.0
-    %Wheel_B_R.engine_force = desired_engine_force / 4.0
+    %Wheel_F_R.engine_force = desired_engine_force / 8.0
+    %Wheel_B_R.engine_force = desired_engine_force / 8.0
   # Go straight
   else:
     # Accelerate all wheels
@@ -105,7 +111,7 @@ func _physics_process(delta: float) -> void:
     %Wheel_F_R.engine_force = desired_engine_force / 2.0
     %Wheel_B_L.engine_force = desired_engine_force / 2.0
     %Wheel_B_R.engine_force = desired_engine_force / 2.0
-
+  
   steering = move_toward(steering, steer_target, STEER_SPEED * delta)
   
   if %Wheel_F_L.get_skidinfo() < 0.3:
@@ -172,7 +178,7 @@ func end_map() -> void:
 func restart_map() -> void:
   lock()
   GlobalTimer.reset()
-  last_respawn_position = start_bloc.global_position
+  last_respawn_position = start_bloc.global_position + Vector3(0.0, 0.25, 0.0)
   last_respawn_basis = start_bloc.global_transform.basis
   respawn_last_saved_position()
   ended = false
@@ -190,6 +196,7 @@ func respawn_last_saved_position() -> void:
   steering = 0.0
   global_position = last_respawn_position
   global_transform.basis = last_respawn_basis
+  %Camera3D.position = Vector3(0, 4, 4)
   set_physics_process_internal(true)
   set_physics_process(true)
 

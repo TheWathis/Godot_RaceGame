@@ -1,6 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://cug0e6ajqr1df"]
+[gd_scene load_steps=21 format=3 uid="uid://cug0e6ajqr1df"]
 
-[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_3sh34"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_f0xke"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
 [ext_resource type="PackedScene" uid="uid://bsvnh8f4yndmx" path="res://scenes/drift_smoke.tscn" id="3_16xs5"]
 
@@ -128,7 +128,11 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ve4go")
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5k0xc"]
-points = PackedVector3Array(0.6, 0.099996, 0.43448, 0.349922, 0.536016, 1.27989, 0.6, 0, 0.43448, 0.6, 0.099996, -0.165624, 0.549961, 0.388529, -0.0656481, -0.350039, 0.536016, 1.27989, 0.349922, 0, 1.27989, 0.549961, 0.388529, -0.165624, 0.0669538, 0.632544, 0.102982, 0.0669538, 0.632544, 0.202958, 0.6, 0, -0.165624, 0.449883, 0.149963, -1.27989, -0.6, 0.099996, 0.43448, -0.350039, 0, 1.27989, -0.0670713, 0.632544, 0.202958, -0.0670713, 0.632544, 0.102982, -0.550078, 0.388529, -0.165624, -0.550078, 0.388529, -0.0656481, 0.45, 0, -1.2, -0.45, 0.15, -1.28, -0.6, 0, 0.43448, -0.6, 0.099996, -0.165624, -0.45, 0, -1.2, -0.6, 0, -0.165624)
+points = PackedVector3Array(0.6, 0.099996, 0.43448, 0.349922, 0.536016, 1.27989, 0.6, 0, 0.43448, 0.6, 0.099996, -0.165624, 0.549961, 0.388529, -0.0656481, -0.350039, 0.536016, 1.27989, 0.349922, 0, 1.27989, 0.549961, 0.388529, -0.165624, 0.0669538, 0.632544, 0.102982, 0.0669538, 0.632544, 0.202958, 0.6, 0, -0.165624, 0.45, 0.15, -1, -0.6, 0.099996, 0.43448, -0.350039, 0, 1.27989, -0.0670713, 0.632544, 0.202958, -0.0670713, 0.632544, 0.102982, -0.550078, 0.388529, -0.165624, -0.550078, 0.388529, -0.0656481, 0.45, 0.05, -1, -0.45, 0.15, -1, -0.6, 0, 0.43448, -0.6, 0.099996, -0.165624, -0.45, 0.05, -1, -0.6, 0, -0.165624)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xevga"]
+radius = 0.111217
+height = 0.923093
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2rjr"]
 resource_name = "carTire"
@@ -266,9 +270,11 @@ func _physics_process(_delta):
 
 [node name="Player" type="VehicleBody3D"]
 center_of_mass_mode = 1
-center_of_mass = Vector3(0, 0.2, 0)
-script = ExtResource("1_3sh34")
-engine_force_value = 100
+center_of_mass = Vector3(0, 0.2, 0.3)
+script = ExtResource("1_f0xke")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.3)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -436,21 +442,25 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34997e-13, 0.1, 0)
 shape = SubResource("ConvexPolygonShape3D_5k0xc")
 
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.25, -1)
+shape = SubResource("CapsuleShape3D_xevga")
+
 [node name="Wheel_B_L" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.35, 0.880114)
 use_as_traction = true
-wheel_roll_influence = -2.0
+wheel_roll_influence = 0.0
 wheel_radius = 0.3
 wheel_friction_slip = 5.0
-suspension_travel = 0.05
+suspension_travel = 0.1
 suspension_stiffness = 200.0
-suspension_max_force = 800.0
+suspension_max_force = 24000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
 [node name="DriftSmoke" parent="Wheel_B_L" instance=ExtResource("3_16xs5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 emitting = false
 
 [node name="wheel_backLeft" type="MeshInstance3D" parent="Wheel_B_L"]
@@ -462,17 +472,17 @@ skeleton = NodePath("")
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.35, 0.880114)
 use_as_traction = true
-wheel_roll_influence = -2.0
+wheel_roll_influence = 0.0
 wheel_radius = 0.3
 wheel_friction_slip = 5.0
-suspension_travel = 0.05
+suspension_travel = 0.1
 suspension_stiffness = 200.0
-suspension_max_force = 4000.0
+suspension_max_force = 24000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
 [node name="DriftSmoke" parent="Wheel_B_R" instance=ExtResource("3_16xs5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0, 1.19209e-07)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 1.19209e-07)
 emitting = false
 
 [node name="wheel_backRight" type="MeshInstance3D" parent="Wheel_B_R"]
@@ -485,16 +495,16 @@ unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.35, -0.639886)
 use_as_traction = true
 use_as_steering = true
-wheel_roll_influence = -2.0
+wheel_roll_influence = 0.0
 wheel_radius = 0.3
-suspension_travel = 0.05
+suspension_travel = 0.1
 suspension_stiffness = 200.0
-suspension_max_force = 4000.0
+suspension_max_force = 24000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
 [node name="DriftSmoke" parent="Wheel_F_L" instance=ExtResource("3_16xs5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 emitting = false
 
 [node name="wheel_frontLeft" type="MeshInstance3D" parent="Wheel_F_L"]
@@ -507,16 +517,16 @@ unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, 0.5, 0.35, -0.639886)
 use_as_traction = true
 use_as_steering = true
-wheel_roll_influence = -2.0
+wheel_roll_influence = 0.0
 wheel_radius = 0.3
-suspension_travel = 0.05
+suspension_travel = 0.1
 suspension_stiffness = 200.0
-suspension_max_force = 4000.0
+suspension_max_force = 24000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
 [node name="DriftSmoke" parent="Wheel_F_R" instance=ExtResource("3_16xs5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 emitting = false
 
 [node name="wheel_frontRight" type="MeshInstance3D" parent="Wheel_F_R"]

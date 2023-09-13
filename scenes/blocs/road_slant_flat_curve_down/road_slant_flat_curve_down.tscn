@@ -1,18 +1,18 @@
 [gd_scene load_steps=4 format=3 uid="uid://bkag7xqvcqiiq"]
 
-[ext_resource type="PackedScene" uid="uid://cfbp0xei8srce" path="res://scenes/blocs/assets/road_slant_FlatCurve.glb" id="1_dqy7o"]
 [ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="1_nbruo"]
 [ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="2_84wsv"]
+[ext_resource type="PackedScene" uid="uid://bjnuduw2b0ga5" path="res://scenes/blocs/assets/basic_up.glb" id="4_j55gk"]
 
 [node name="RoadSlantFlatCurveDown" type="Node3D"]
 script = ExtResource("1_nbruo")
-height_delta = -2
+height_delta = -3
 
-[node name="road_slant_FlatCurve" parent="." instance=ExtResource("1_dqy7o")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+[node name="basic_up" parent="." instance=ExtResource("4_j55gk")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="Connector_IN" parent="." instance=ExtResource("2_84wsv")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 4.37114e-07, 5, 10)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 7, 7.5)
 
 [node name="Connector_OUT" parent="." instance=ExtResource("2_84wsv")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -4.37114e-07, 0, -10)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -4.37114e-07, 0, -14)

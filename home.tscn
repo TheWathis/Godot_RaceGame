@@ -438,7 +438,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_j8eej")
 
 [node name="RoadCurveRight" parent="." instance=ExtResource("2_nvdj5")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 6)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -14, 0.05, 1)
 
 [node name="Connector_IN" parent="RoadCurveRight" index="1"]
 visible = false
@@ -447,7 +447,10 @@ visible = false
 visible = false
 
 [node name="RoadCurveRight2" parent="." instance=ExtResource("2_nvdj5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.05, 6)
+
+[node name="soft_turn" parent="RoadCurveRight2" index="0"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11, 0, -5)
 
 [node name="Connector_IN" parent="RoadCurveRight2" index="1"]
 visible = false
@@ -456,7 +459,10 @@ visible = false
 visible = false
 
 [node name="RoadCurveRight3" parent="." instance=ExtResource("2_nvdj5")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0, 26)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0.05, 26)
+
+[node name="soft_turn" parent="RoadCurveRight3" index="0"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -17, 0, -11)
 
 [node name="Connector_IN" parent="RoadCurveRight3" index="1"]
 visible = false
@@ -465,7 +471,10 @@ visible = false
 visible = false
 
 [node name="RoadCurveRight4" parent="." instance=ExtResource("2_nvdj5")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4, 0, 26)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4, 0.05, 26)
+
+[node name="soft_turn" parent="RoadCurveRight4" index="0"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11, 0, -17)
 
 [node name="Connector_IN" parent="RoadCurveRight4" index="1"]
 visible = false
