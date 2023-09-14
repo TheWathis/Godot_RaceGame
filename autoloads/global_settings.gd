@@ -305,20 +305,20 @@ func set_volumetric_fog(value: int) -> void:
 
 # Audio ############################################################################################
 
-func update_master_volume(value: float) -> void:
+func set_master_volume(value: float) -> void:
   AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), value)
 
-func toggle_master_mute(value: bool) -> void:
+func set_master_muted(value: bool) -> void:
   AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), value)
 
-func update_music_volume(value: float) -> void:
+func set_music_volume(value: float) -> void:
   AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), value)
 
-func toggle_music_mute(value: bool) -> void:
+func set_music_muted(value: bool) -> void:
   AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), value)
 
-func update_sfx_volume(value: float) -> void:
+func set_sfx_volume(value: float) -> void:
   AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), value)
 
-func toggle_sfx_mute(value: bool) -> void:
+func set_sfx_muted(value: bool) -> void:
   AudioServer.set_bus_mute(AudioServer.get_bus_index("SFX"), value)

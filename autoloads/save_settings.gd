@@ -27,6 +27,12 @@ const DEFAULT_SETTINGS: Dictionary = {
   "sdfgi": 0,              # 0 = disabled, 1 = low, 2 = high
   "glow": 0,               # 0 = disabled, 1 = low, 2 = high
   "volumetric_fog": 0,     # 0 = disabled, 1 = low, 2 = high
+  "master_volume": 0.0,    # min: -80.0, max: +6.0
+  "master_muted": false,   # false = unmuted, true = muted
+  "music_volume": 0.0,     # min: -80.0, max: +6.0
+  "music_muted": false,    # false = unmuted, true = muted
+  "sfx_volume": 0.0,       # min: -80.0, max: +6.0
+  "sfx_muted": false,      # false = unmuted, true = muted
 }
 
 var game_settings: Dictionary = DEFAULT_SETTINGS.duplicate(true)
@@ -70,6 +76,12 @@ func _ready() -> void:
   GlobalSettings.set_sdfgi(game_settings["sdfgi"])
   # GlobalSettings.set_glow(game_settings["glow"])
   # GlobalSettings.set_volumetric_fog(game_settings["volumetric_fog"])
+  GlobalSettings.set_master_volume(game_settings["master_volume"])
+  GlobalSettings.set_master_muted(game_settings["master_muted"])
+  GlobalSettings.set_music_volume(game_settings["music_volume"])
+  GlobalSettings.set_music_muted(game_settings["music_muted"])
+  GlobalSettings.set_sfx_volume(game_settings["sfx_volume"])
+  GlobalSettings.set_sfx_muted(game_settings["sfx_muted"])
 
 
 ## Load the settings from the settings file

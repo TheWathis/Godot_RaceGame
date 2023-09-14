@@ -9,6 +9,7 @@ var viewport_start_size: Vector2i = Vector2i(
 )
 
 func _ready() -> void:
+  # Graphic tab
   %UIScaleOptionButton.selected = SaveSettings.game_settings["ui_scale"]
   %QualitySlider.value = SaveSettings.game_settings["resolution_scale"]
   %FilterOptionButton.selected = SaveSettings.game_settings["display_filter"]
@@ -28,6 +29,14 @@ func _ready() -> void:
   %SSReflectionsOptionButton.selected = SaveSettings.game_settings["ss_reflections"]
   %SSILOptionButton.selected = SaveSettings.game_settings["ssil"]
   # %VolumetricFogOptionButton.selected = SaveSettings.game_settings["volumetric_fog"]
+
+  # Audio tab
+  %MasterSlider.value = SaveSettings.game_settings["master_volume"]
+  %MasterCheckBox.button_pressed = not SaveSettings.game_settings["master_muted"]
+  %MusicSlider.value = SaveSettings.game_settings["music_volume"]
+  %MusicCheckBox.button_pressed = not SaveSettings.game_settings["music_muted"]
+  %SFXSlider.value = SaveSettings.game_settings["sfx_volume"]
+  %SFXCheckBox.button_pressed = not SaveSettings.game_settings["sfx_muted"]
 
 # Video settings.
 
@@ -246,3 +255,36 @@ func update_preset() -> void:
   %SSReflectionsOptionButton.item_selected.emit(%SSReflectionsOptionButton.selected)
   %SSILOptionButton.item_selected.emit(%SSILOptionButton.selected)
   # %VolumetricFogOptionButton.item_selected.emit(%VolumetricFogOptionButton.selected)
+
+
+# Audio settings
+
+
+func _on_master_slider_value_changed(value: float) -> void:
+  GlobalSettings.set_master_volume(value)
+  SaveSettings.game_settings["master_volume"] = value
+
+
+func _on_master_check_box_pressed() -> void:
+  GlobalSettings.set_master_muted(not %MasterCheckBox.button_pressed)
+  SaveSettings.game_settings["master_muted"] = not %MasterCheckBox.button_pressed
+
+
+func _on_music_slider_value_changed(value: float) -> void:
+  GlobalSettings.set_music_volume(value)
+  SaveSettings.game_settings["music_volume"] = value
+
+
+func _on_music_check_box_pressed() -> void:
+  GlobalSettings.set_music_muted(not %MusicCheckBox.button_pressed)
+  SaveSettings.game_settings["music_muted"] = not %MusicCheckBox.button_pressed
+
+
+func _on_sfx_slider_value_changed(value: float) -> void:
+  GlobalSettings.set_sfx_volume(value)
+  SaveSettings.game_settings["sfx_volume"] = value
+
+
+func _on_sfx_check_box_pressed() -> void:
+  GlobalSettings.set_sfx_muted(not %SFXCheckBox.button_pressed)
+  SaveSettings.game_settings["sfx_muted"] = not %SFXCheckBox.button_pressed

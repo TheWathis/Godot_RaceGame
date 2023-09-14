@@ -11,5 +11,6 @@ script = ExtResource("1_ivnou")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("2_n7fcr")
+bus = &"SFX"
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]
