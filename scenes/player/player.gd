@@ -11,7 +11,7 @@ var steer_target: float = 0.0
 
 # Map related
 
-var start_bloc: StartBloc
+var map: Map
 
 var last_respawn_position: Vector3 = Vector3(0, 0, 0)
 var last_respawn_basis: Basis = Basis.IDENTITY
@@ -27,15 +27,18 @@ var save_steering: float = 0.0
 var ended: bool = false
 var paused: bool = false
 
+
 @onready var fps_label: Label = %FPSLabel
+
 
 func _ready() -> void:
   %Seed.text = str(Random.rng.seed)
   %Camera3D.current = true
+  %CheckpointCounter.set_total_checkpoint(map.checkpoints.size())
 
 
 func _process(_delta: float) -> void:
-  %Timer.text = convert_timer_to_string()
+  %Timer.text = convert_float_timer_to_string(GlobalTimer.timer)
   
   fps_label.text = "%d FPS (%.2f mspf)" % [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
   fps_label.modulate = fps_label.get_meta("Gradient").sample(remap(Engine.get_frames_per_second(), 0, 180, 0.0, 1.0))
@@ -162,28 +165,31 @@ func resume() -> void:
   unlock()
 
 
-func display_checkpoint_time() -> void:
-  %CheckpointTime.text = convert_timer_to_string()
+## Update the validated checkpoint display
+func update_validated_checkpoint() -> void:
+  %CheckpointCounter.set_validated_checkpoint(map.get_validated_checkpoints().size())
+
+
+## Display the current checkpoint time
+func display_checkpoint_time(cp_time: float, best_delta: float, previous_delta: float) -> void:
+  %CheckpointTime.set_current_checkpoint_time(cp_time)
+  %CheckpointTime.set_best_time_delta(best_delta)
+  %CheckpointTime.set_precedent_time_delta(previous_delta)
   %CheckpointTime.show()
-  %CheckpointTime.get_child(0).start()
 
 
-func end_map() -> void:
+## End the map for the player
+func end_map(timer: float) -> void:
   ended = true
-  %EndTime.text = convert_timer_to_string()
+  %EndTime.text = convert_float_timer_to_string(timer)
   %NextSeed.text = str(Random.rng.seed)
   %EndScreen.show()
 
 
 func restart_map() -> void:
-  lock()
   GlobalTimer.reset()
-  last_respawn_position = start_bloc.global_position + Vector3(0.0, 0.25, 0.0)
-  last_respawn_basis = start_bloc.global_transform.basis
-  respawn_last_saved_position()
-  ended = false
-  GlobalTimer.start()
-  unlock()
+  map.reset_map()
+  queue_free()
 
 
 func respawn_last_saved_position() -> void:
@@ -221,21 +227,16 @@ func unlock() -> void:
   paused = false
 
 
-func convert_timer_to_string() -> String:
-  var map_time: float = GlobalTimer.timer
-  var ms: int = int(map_time * 1000)
-  var s: int = int(map_time)
+func convert_float_timer_to_string(timer: float) -> String:
+  var ms: int = int(timer * 1000)
+  var s: int = int(timer)
   var m: int = int(s / 60.0)
   var h: int = int(m / 60.0)
 
   if h == 0:
-    return str(m % 60).pad_zeros(2) + ":" + str(s % 60).pad_zeros(2) + ":" + str(ms % 1000).pad_zeros(3)
+    return str(m % 60) + ":" + str(s % 60).pad_zeros(2) + ":" + str(ms % 1000).pad_zeros(3)
   else:
-    return str(h % 24).pad_zeros(2) + ":" + str(m % 60).pad_zeros(2) + ":" + str(s % 60).pad_zeros(2) + ":" + str(ms % 1000).pad_zeros(3)
-
-
-func _on_timer_timeout() -> void:
-  %CheckpointTime.hide()
+    return str(h % 24) + ":" + str(m % 60).pad_zeros(2) + ":" + str(s % 60).pad_zeros(2) + ":" + str(ms % 1000).pad_zeros(3)
 
 
 func _on_home_button_pressed() -> void:
@@ -263,6 +264,4 @@ func _on_next_pressed() -> void:
 
 
 func _on_reset_pressed() -> void:
-  %EndScreen.hide()
-  %EscapeScreen.hide()
   restart_map()

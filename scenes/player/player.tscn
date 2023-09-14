@@ -1,15 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://cug0e6ajqr1df"]
+[gd_scene load_steps=22 format=3 uid="uid://cug0e6ajqr1df"]
 
-[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_f0xke"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_rdvgm"]
+[ext_resource type="PackedScene" uid="uid://c2whlufh16yof" path="res://scenes/player/ui/checkpoint_counter/checkpoint_counter.tscn" id="2_1srwk"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
 [ext_resource type="PackedScene" uid="uid://bsvnh8f4yndmx" path="res://scenes/drift_smoke.tscn" id="3_16xs5"]
+[ext_resource type="PackedScene" uid="uid://badi3jprti6bb" path="res://scenes/player/ui/checkpoint_time_display/checkpoint_time_display.tscn" id="3_18sqn"]
 
 [sub_resource type="Gradient" id="Gradient_ehij4"]
 offsets = PackedFloat32Array(0, 0.333, 0.667, 1)
 colors = PackedColorArray(1, 0.17, 0.17, 1, 1, 0.816, 0.08, 1, 0.644, 1, 0.11, 1, 0.14, 0.885333, 1, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_x2m8o"]
-font_size = 32
 
 [sub_resource type="LabelSettings" id="LabelSettings_fps2o"]
 font_size = 32
@@ -271,7 +270,7 @@ func _physics_process(_delta):
 [node name="Player" type="VehicleBody3D"]
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0.2, 0.3)
-script = ExtResource("1_f0xke")
+script = ExtResource("1_rdvgm")
 
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.3)
@@ -316,25 +315,22 @@ anchor_right = 1.0
 offset_bottom = 23.0
 grow_horizontal = 2
 
-[node name="CheckpointTime" type="Label" parent="Control"]
+[node name="CheckpointCounter" parent="Control" instance=ExtResource("2_1srwk")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 448.0
+offset_top = 188.0
+offset_right = 483.0
+offset_bottom = 214.0
+
+[node name="CheckpointTime" parent="Control" instance=ExtResource("3_18sqn")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -176.0
-offset_right = 20.0
-offset_bottom = -153.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "00:00:00:0000"
-label_settings = SubResource("LabelSettings_x2m8o")
-
-[node name="Timer" type="Timer" parent="Control/CheckpointTime"]
+offset_left = -130.0
+offset_top = -189.0
+offset_right = 130.0
+offset_bottom = -111.0
 
 [node name="EndScreen" type="Control" parent="Control"]
 unique_name_in_owner = true
@@ -546,7 +542,6 @@ script = SubResource("GDScript_gpq5r")
 max_distance = 8.0
 height = 4.0
 
-[connection signal="timeout" from="Control/CheckpointTime/Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
 [connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/ImproveButton" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/NextButton" to="." method="_on_next_button_pressed"]

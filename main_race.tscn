@@ -28,8 +28,8 @@ func _ready() -> void:
 
 func new_map() -> void:
   %SpectatorCamera.current = true
-  $Node3D._clear()
-  $Node3D._generate()
+  $RoadGenerator._clear()
+  $RoadGenerator._generate()
 
 
 func _on_audio_stream_player_finished():
@@ -74,10 +74,9 @@ stream_3/weight = 1.0
 [node name="MainRace" type="Node3D"]
 script = SubResource("GDScript_1twkq")
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="RoadGenerator" type="Node3D" parent="."]
 script = ExtResource("1_f41a7")
 roads = Array[PackedScene]([ExtResource("6_heqav"), ExtResource("3_2374i"), ExtResource("4_o1ieh"), ExtResource("5_tjb4q"), ExtResource("5_o7wrp"), ExtResource("4_iv0n1"), ExtResource("3_vc8va")])
-road_length = 25
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("7_urhx6")]
 
