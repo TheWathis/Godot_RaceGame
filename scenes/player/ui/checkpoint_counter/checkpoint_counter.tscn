@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2whlufh16yof"]
+[gd_scene load_steps=3 format=3 uid="uid://c2whlufh16yof"]
 
 [ext_resource type="Script" path="res://scenes/player/ui/checkpoint_counter/checkpoint_counter.gd" id="1_oeebk"]
+[ext_resource type="LabelSettings" uid="uid://dk18e2f56klv8" path="res://scenes/ui/font_24.tres" id="2_1l8p6"]
 
 [node name="CheckpointCounter" type="PanelContainer"]
 anchors_preset = 8
@@ -31,12 +32,14 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
+label_settings = ExtResource("2_1l8p6")
 horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "/"
+label_settings = ExtResource("2_1l8p6")
 vertical_alignment = 1
 
 [node name="Total" type="Label" parent="MarginContainer/HBoxContainer"]
@@ -44,4 +47,5 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
+label_settings = ExtResource("2_1l8p6")
 vertical_alignment = 1

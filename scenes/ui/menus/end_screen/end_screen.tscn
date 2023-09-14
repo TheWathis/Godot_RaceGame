@@ -1,0 +1,100 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7xahwrsvqpb8"]
+
+[ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="1_h2dkf"]
+[ext_resource type="Script" path="res://scenes/ui/menus/end_screen/end_screen.gd" id="1_jeeld"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fps2o"]
+font_size = 32
+
+[node name="EndScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jeeld")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(512, 256)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EndTime" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00:00:0000"
+label_settings = SubResource("LabelSettings_fps2o")
+horizontal_alignment = 1
+
+[node name="HBoxContainer_Time" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PersonalBest" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer_Time"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Personal best!"
+
+[node name="DeltaTime" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer_Time"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-00:00:00:0000"
+horizontal_alignment = 2
+
+[node name="Spacer" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HomeButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_h2dkf")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Home"
+
+[node name="ImproveButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_h2dkf")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Improve"
+
+[node name="NextButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_h2dkf")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "New map"
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Next map seed:"
+
+[node name="NextSeed" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ImproveButton" to="." method="_on_improve_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/NextButton" to="." method="_on_next_button_pressed"]

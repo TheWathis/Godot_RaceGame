@@ -179,10 +179,11 @@ func display_checkpoint_time(cp_time: float, best_delta: float, previous_delta: 
 
 
 ## End the map for the player
-func end_map(timer: float) -> void:
+func end_map(end_time: float, best_delta: float) -> void:
   ended = true
-  %EndTime.text = convert_float_timer_to_string(timer)
-  %NextSeed.text = str(Random.rng.seed)
+  %EndScreen.set_end_time(end_time)
+  %EndScreen.set_delta_time(best_delta)
+  %EndScreen.set_next_seed(Random.rng.seed)
   %EndScreen.show()
 
 
@@ -242,13 +243,6 @@ func convert_float_timer_to_string(timer: float) -> String:
 func _on_home_button_pressed() -> void:
   var scene = load("res://home.tscn")
   get_tree().change_scene_to_packed(scene)
-  queue_free()
-
-
-func _on_next_button_pressed() -> void:
-  GlobalTimer.reset()
-  Random.rng.seed = int(%NextSeed.text)
-  get_tree().root.get_node("MainRace").new_map()
   queue_free()
 
 

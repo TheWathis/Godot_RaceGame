@@ -1,17 +1,16 @@
-[gd_scene load_steps=22 format=3 uid="uid://cug0e6ajqr1df"]
+[gd_scene load_steps=23 format=3 uid="uid://cug0e6ajqr1df"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_rdvgm"]
+[ext_resource type="LabelSettings" uid="uid://dk18e2f56klv8" path="res://scenes/ui/font_24.tres" id="2_1jso6"]
 [ext_resource type="PackedScene" uid="uid://c2whlufh16yof" path="res://scenes/player/ui/checkpoint_counter/checkpoint_counter.tscn" id="2_1srwk"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
 [ext_resource type="PackedScene" uid="uid://bsvnh8f4yndmx" path="res://scenes/drift_smoke.tscn" id="3_16xs5"]
 [ext_resource type="PackedScene" uid="uid://badi3jprti6bb" path="res://scenes/player/ui/checkpoint_time_display/checkpoint_time_display.tscn" id="3_18sqn"]
+[ext_resource type="PackedScene" uid="uid://b7xahwrsvqpb8" path="res://scenes/ui/menus/end_screen/end_screen.tscn" id="4_8im6c"]
 
 [sub_resource type="Gradient" id="Gradient_ehij4"]
 offsets = PackedFloat32Array(0, 0.333, 0.667, 1)
 colors = PackedColorArray(1, 0.17, 0.17, 1, 1, 0.816, 0.08, 1, 0.644, 1, 0.11, 1, 0.14, 0.885333, 1, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_fps2o"]
-font_size = 32
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5t7cb"]
 resource_name = "paintRed"
@@ -222,7 +221,7 @@ script/source = "extends FOVCamera
 
 
 @export var min_distance = 2.0
-@export var max_distance = 4.0
+@export var max_distance = 6.0
 @export var angle_v_adjust = 0.0
 
 @export var height = 1.5
@@ -305,6 +304,7 @@ offset_top = -26.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "00:00:00:0000"
+label_settings = ExtResource("2_1jso6")
 horizontal_alignment = 1
 
 [node name="Seed" type="Label" parent="Control"]
@@ -332,58 +332,10 @@ offset_top = -189.0
 offset_right = 130.0
 offset_bottom = -111.0
 
-[node name="EndScreen" type="Control" parent="Control"]
+[node name="EndScreen" parent="Control" instance=ExtResource("4_8im6c")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="Control/EndScreen"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/EndScreen/CenterContainer"]
-layout_mode = 2
-
-[node name="EndTime" type="Label" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "00:00:00:0000"
-label_settings = SubResource("LabelSettings_fps2o")
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="HomeButton" parent="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_d4fk4")]
-layout_mode = 2
-text = "Home"
-
-[node name="ImproveButton" parent="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_d4fk4")]
-layout_mode = 2
-text = "Improve"
-
-[node name="NextButton" parent="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_d4fk4")]
-layout_mode = 2
-text = "New map"
-
-[node name="Label" type="Label" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Next map seed:"
-
-[node name="NextSeed" type="LineEdit" parent="Control/EndScreen/CenterContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-caret_blink = true
-caret_blink_interval = 0.5
 
 [node name="EscapeScreen" type="Control" parent="Control"]
 unique_name_in_owner = true
@@ -542,9 +494,6 @@ script = SubResource("GDScript_gpq5r")
 max_distance = 8.0
 height = 4.0
 
-[connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
-[connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/ImproveButton" to="." method="_on_reset_pressed"]
-[connection signal="pressed" from="Control/EndScreen/CenterContainer/VBoxContainer/HBoxContainer/NextButton" to="." method="_on_next_button_pressed"]
 [connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Next" to="." method="_on_next_pressed"]
