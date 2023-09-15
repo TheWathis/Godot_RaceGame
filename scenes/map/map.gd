@@ -13,6 +13,11 @@ var _checkpoint_scene: PackedScene = preload("res://scenes/blocs/checkpoint/chec
 var _end_scene: PackedScene = preload("res://scenes/blocs/end/end.tscn")
 
 
+func _ready() -> void:
+  if not MapsInfo.maps_information.has(Random.rng.seed):
+    MapsInfo.add_map(Random.rng.seed)
+
+
 func _last_bloc_height() -> float:
   var height: float = _start_height
   for bloc in blocs:
@@ -86,32 +91,50 @@ func add_end() -> void:
   add_bloc(end)
   end.map = self
 
+  set_best_times()
+
+
+## Set the saved best time for checkpoints and end bloc.
+func set_best_times() -> void:
+  var end: EndBloc = get_end()
+  end.best_validation_time = MapsInfo.get_best_time(Random.rng.seed)
+  # var best_checkpoints_time: Array[float] = MapsInfo.get_checkpoints_best_time(Random.rng.seed)
+  var best_checkpoints_time: Array = MapsInfo.get_checkpoints_best_time(Random.rng.seed)
+  if best_checkpoints_time.size() == checkpoints.size():
+    for i in range(checkpoints.size()):
+      checkpoints[i].best_checkpoint_time = best_checkpoints_time[i]
+
 
 ## Reset the state of the map.[br]
 ## i.e.: Invalidate all checkpoints.
 func reset_map() -> void:
-  var is_pb: bool = false
   # Check if it's pb
   var end: EndBloc = get_end()
-  if end.best_validation_time < 0:
-    end.best_validation_time = end.validation_time
-    is_pb = true
-  else:
-    if end.validation_time < end.best_validation_time:
-      end.best_validation_time = end.validation_time
-      is_pb = true
-  
   end.precedent_validation_time = end.validation_time
   end.validation_time = 0.0
 
   for checkpoint in checkpoints:
-    if is_pb:
-      checkpoint.best_checkpoint_time = checkpoint.checkpoint_time
     checkpoint.validated = false
     checkpoint.precedent_checkpoint_time = checkpoint.checkpoint_time
     checkpoint.checkpoint_time = 0.0
   
   get_start().place_player(self)
+
+
+## Update the best time for checkpoints
+func update_checkpoints_best_time() -> void:
+  for checkpoint in checkpoints:
+    checkpoint.best_checkpoint_time = checkpoint.checkpoint_time
+
+
+## Save map informations
+func save_map_informations() -> void:
+  var end: EndBloc = get_end()
+  MapsInfo.set_best_time(Random.rng.seed, end.best_validation_time)
+  var best_checkpoints_time: Array[float] = []
+  for checkpoint in checkpoints:
+    best_checkpoints_time.append(checkpoint.best_checkpoint_time)
+  MapsInfo.set_checkpoints_best_time(Random.rng.seed, best_checkpoints_time)
 
 
 ## Check if the condition to win the map is met.

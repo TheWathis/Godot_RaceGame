@@ -32,13 +32,14 @@ var paused: bool = false
 
 
 func _ready() -> void:
-  %Seed.text = str(Random.rng.seed)
+  %MapInformation.set_map_seed(Random.rng.seed)
   %Camera3D.current = true
   %CheckpointCounter.set_total_checkpoint(map.checkpoints.size())
+  MapsInfo.increment_played(Random.rng.seed)
 
 
 func _process(_delta: float) -> void:
-  %Timer.text = convert_float_timer_to_string(GlobalTimer.timer)
+  %Timer.text = Utils.convert_float_timer_to_string(GlobalTimer.timer)
   
   fps_label.text = "%d FPS (%.2f mspf)" % [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
   fps_label.modulate = fps_label.get_meta("Gradient").sample(remap(Engine.get_frames_per_second(), 0, 180, 0.0, 1.0))
@@ -171,19 +172,26 @@ func update_validated_checkpoint() -> void:
 
 
 ## Display the current checkpoint time
-func display_checkpoint_time(cp_time: float, best_delta: float, previous_delta: float) -> void:
+func display_checkpoint_time(
+  cp_time: float,
+  display_best_delta: bool,
+  best_delta: float,
+  _display_previous_delta: bool,
+  previous_delta: float
+) -> void:
   %CheckpointTime.set_current_checkpoint_time(cp_time)
+  %CheckpointTime.set_best_time_visibility(display_best_delta)
   %CheckpointTime.set_best_time_delta(best_delta)
   %CheckpointTime.set_precedent_time_delta(previous_delta)
   %CheckpointTime.show()
 
 
 ## End the map for the player
-func end_map(end_time: float, best_delta: float) -> void:
+func end_map(end_time: float, display_delta: bool, best_delta: float) -> void:
   ended = true
   %EndScreen.set_end_time(end_time)
+  %EndScreen.set_delta_visibility(display_delta)
   %EndScreen.set_delta_time(best_delta)
-  %EndScreen.set_next_seed(Random.rng.seed)
   %EndScreen.show()
 
 
@@ -226,18 +234,6 @@ func unlock() -> void:
   axis_lock_linear_y = false
   axis_lock_linear_z = false
   paused = false
-
-
-func convert_float_timer_to_string(timer: float) -> String:
-  var ms: int = int(timer * 1000)
-  var s: int = int(timer)
-  var m: int = int(s / 60.0)
-  var h: int = int(m / 60.0)
-
-  if h == 0:
-    return str(m % 60) + ":" + str(s % 60).pad_zeros(2) + ":" + str(ms % 1000).pad_zeros(3)
-  else:
-    return str(h % 24) + ":" + str(m % 60).pad_zeros(2) + ":" + str(s % 60).pad_zeros(2) + ":" + str(ms % 1000).pad_zeros(3)
 
 
 func _on_home_button_pressed() -> void:

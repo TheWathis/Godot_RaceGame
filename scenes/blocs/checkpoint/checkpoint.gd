@@ -18,6 +18,8 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
   if validated:
     return
   
+  var was_first_try: bool = best_checkpoint_time < 0.0
+
   var player: Player = body
   validated = true
   checkpoint_time = GlobalTimer.timer
@@ -27,5 +29,11 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
   
   var precedent_time_delta: float = checkpoint_time - precedent_checkpoint_time if precedent_checkpoint_time >= 0.0 else 0.0
   var best_time_delta: float = checkpoint_time - best_checkpoint_time if best_checkpoint_time >= 0.0 else 0.0
-
-  player.display_checkpoint_time(checkpoint_time, best_time_delta, precedent_time_delta)
+  
+  player.display_checkpoint_time(
+    checkpoint_time,
+    not was_first_try,
+    best_time_delta,
+    false,
+    precedent_time_delta
+  )

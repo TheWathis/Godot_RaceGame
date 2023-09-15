@@ -23,7 +23,6 @@ layout_mode = 2
 tab_alignment = 1
 
 [node name="Graphics" type="TabBar" parent="TabContainer"]
-visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Graphics"]
@@ -523,6 +522,7 @@ popup/item_2/text = "High (Average)"
 popup/item_2/id = 2
 
 [node name="Sounds" type="TabBar" parent="TabContainer"]
+visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Sounds"]

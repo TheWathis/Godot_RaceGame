@@ -1,11 +1,12 @@
-[gd_scene load_steps=23 format=3 uid="uid://cug0e6ajqr1df"]
+[gd_scene load_steps=24 format=3 uid="uid://cug0e6ajqr1df"]
 
-[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_rdvgm"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_dfnav"]
 [ext_resource type="LabelSettings" uid="uid://dk18e2f56klv8" path="res://scenes/ui/font_24.tres" id="2_1jso6"]
 [ext_resource type="PackedScene" uid="uid://c2whlufh16yof" path="res://scenes/player/ui/checkpoint_counter/checkpoint_counter.tscn" id="2_1srwk"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
 [ext_resource type="PackedScene" uid="uid://bsvnh8f4yndmx" path="res://scenes/drift_smoke.tscn" id="3_16xs5"]
 [ext_resource type="PackedScene" uid="uid://badi3jprti6bb" path="res://scenes/player/ui/checkpoint_time_display/checkpoint_time_display.tscn" id="3_18sqn"]
+[ext_resource type="PackedScene" uid="uid://caxfl4ewq87et" path="res://scenes/player/ui/map_information/map_information.tscn" id="3_va2fo"]
 [ext_resource type="PackedScene" uid="uid://b7xahwrsvqpb8" path="res://scenes/ui/menus/end_screen/end_screen.tscn" id="4_8im6c"]
 
 [sub_resource type="Gradient" id="Gradient_ehij4"]
@@ -269,7 +270,7 @@ func _physics_process(_delta):
 [node name="Player" type="VehicleBody3D"]
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0.2, 0.3)
-script = ExtResource("1_rdvgm")
+script = ExtResource("1_dfnav")
 
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.3)
@@ -307,13 +308,19 @@ text = "00:00:00:0000"
 label_settings = ExtResource("2_1jso6")
 horizontal_alignment = 1
 
-[node name="Seed" type="Label" parent="Control"]
+[node name="MapInformation" parent="Control" instance=ExtResource("3_va2fo")]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 23.0
-grow_horizontal = 2
+clip_contents = true
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 221.0
+offset_bottom = 72.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="CheckpointCounter" parent="Control" instance=ExtResource("2_1srwk")]
 unique_name_in_owner = true

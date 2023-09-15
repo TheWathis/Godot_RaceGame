@@ -3,8 +3,16 @@ extends Control
 @onready var player: Player = owner
 
 
+func _ready() -> void:
+  %NextSeed.text = str(Random.rng.randi())
+
+
 func set_end_time(end_time: float) -> void:
-  %EndTime.text = convert_float_timer_to_string(end_time)
+  %EndTime.text = Utils.convert_float_timer_to_string(end_time)
+
+
+func set_delta_visibility(visibility: bool) -> void:
+  %DeltaTime.visible = visibility
 
 
 func set_delta_time(delta: float) -> void:
@@ -16,23 +24,7 @@ func set_delta_time(delta: float) -> void:
     %PersonalBest.hide()
   
   var base: String = "-" if delta <= 0 else "+"
-  %DeltaTime.text = base + convert_float_timer_to_string(abs(delta))
-
-
-func set_next_seed(next_seed: int) -> void:
-  %NextSeed.text = str(next_seed)
-
-
-func convert_float_timer_to_string(timer: float) -> String:
-  var ms: int = int(timer * 1000)
-  var s: int = int(timer)
-  var m: int = int(s / 60.0)
-  var h: int = int(m / 60.0)
-
-  if h == 0:
-    return str(m % 60) + ":" + str(s % 60).pad_zeros(2) + ":" + str(ms % 1000).pad_zeros(3)
-  else:
-    return str(h % 24) + ":" + str(m % 60).pad_zeros(2) + ":" + str(s % 60).pad_zeros(2) + ":" + str(ms % 1000).pad_zeros(3)
+  %DeltaTime.text = base + Utils.convert_float_timer_to_string(abs(delta))
 
 
 func _on_improve_button_pressed() -> void:
