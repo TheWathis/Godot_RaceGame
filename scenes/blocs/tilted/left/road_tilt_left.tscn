@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://th436bg25crk"]
+
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="1_1v8tm"]
+[ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="1_4wvju"]
+[ext_resource type="PackedScene" uid="uid://chv01utvnx7rx" path="res://scenes/blocs/assets/tilted_road_left.glb" id="2_mkdld"]
+
+[node name="RoadTiltLeft" type="Node3D"]
+script = ExtResource("1_4wvju")
+
+[node name="Connector_IN" parent="." instance=ExtResource("1_1v8tm")]
+transform = Transform3D(1, 0, -3.55271e-15, 0, 1, 0, 3.55271e-15, 0, 1, 0, 0, 13.8)
+
+[node name="Connector_OUT" parent="." instance=ExtResource("1_1v8tm")]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, -0.124, 2.83, -13.8)
+inclination = 25
+
+[node name="tilted_road_left" parent="." instance=ExtResource("2_mkdld")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)

@@ -12,6 +12,9 @@ var _road_length_without_checkpoint: int = 0
 
 
 func _generate() -> void:
+  if not MapsInfo.maps_information.has(Random.rng.seed):
+    MapsInfo.add_map(Random.rng.seed)
+  
   assert(roads.size() != 0, "No roads")
   
   var random_start_height: int = Random.rng.randi_range(0, 4)
@@ -37,6 +40,7 @@ func _generate() -> void:
 
     if not map_node.can_add_bloc(road_instance):
       possible_blocs.erase(road)
+      road_instance.queue_free()
       continue
     
     if map_node.add_bloc(road_instance):

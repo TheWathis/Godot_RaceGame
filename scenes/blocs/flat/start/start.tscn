@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsjjr4qwe5ilk"]
+
+[ext_resource type="Script" path="res://scenes/blocs/flat/start/start.gd" id="1_xyoya"]
+[ext_resource type="PackedScene" uid="uid://bd63nay5x3sq2" path="res://scenes/blocs/assets/basic_road.glb" id="2_67adv"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="3_x6ovj"]
+
+[node name="Start" type="Node3D"]
+script = ExtResource("1_xyoya")
+type = null
+
+[node name="basic_road" parent="." instance=ExtResource("2_67adv")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Connector_OUT" parent="." instance=ExtResource("3_x6ovj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+
+[node name="PlayerPosition" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)

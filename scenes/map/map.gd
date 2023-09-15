@@ -8,9 +8,9 @@ var blocs: Array[Bloc] = []
 var checkpoints: Array[Checkpoint] = []
 
 var _start_height: float = 0.0
-var _start_scene: PackedScene = preload("res://scenes/blocs/start/start.tscn")
-var _checkpoint_scene: PackedScene = preload("res://scenes/blocs/checkpoint/checkpoint.tscn")
-var _end_scene: PackedScene = preload("res://scenes/blocs/end/end.tscn")
+var _start_scene: PackedScene = preload("res://scenes/blocs/flat/start/start.tscn")
+var _checkpoint_scene: PackedScene = preload("res://scenes/blocs/flat/checkpoint/checkpoint.tscn")
+var _end_scene: PackedScene = preload("res://scenes/blocs/flat/end/end.tscn")
 
 
 func _ready() -> void:
@@ -30,7 +30,11 @@ func can_add_bloc(bloc: Bloc) -> bool:
   if _last_bloc_height() + bloc.height_delta < 0:
     return false
   
-  return true
+  # Check if the last connector can be connected to the bloc
+  var last_bloc: Bloc = blocs[-1]
+  var last_connector: Connector = last_bloc.get_empty_connectors()[0]
+  var can_connect: bool = last_connector.can_be_connected_with(bloc.get_empty_connectors()[0])
+  return can_connect
 
 
 ## Add a bloc to the map behind the last bloc.[br]
@@ -81,6 +85,10 @@ func add_start(world_position: Vector3) -> void:
 ## Add a checkpoint.
 func add_checkpoint() -> void:
   var checkpoint: Checkpoint = _checkpoint_scene.instantiate()
+  if not can_add_bloc(checkpoint):
+    checkpoint.queue_free()
+    return
+  
   add_bloc(checkpoint)
   checkpoints.append(checkpoint)
 

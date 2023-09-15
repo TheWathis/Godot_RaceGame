@@ -1,16 +1,22 @@
-[gd_scene load_steps=23 format=3 uid="uid://daeqf725r5hs0"]
+[gd_scene load_steps=29 format=3 uid="uid://daeqf725r5hs0"]
 
 [ext_resource type="Script" path="res://road_generator.gd" id="1_f41a7"]
-[ext_resource type="PackedScene" uid="uid://c4ciies80nty6" path="res://scenes/blocs/road_bend_left/road_bend_left.tscn" id="3_7g4pi"]
-[ext_resource type="PackedScene" uid="uid://dvjbvv8m647w2" path="res://scenes/blocs/road_bend_right/road_bend_right.tscn" id="4_bb1yp"]
-[ext_resource type="PackedScene" uid="uid://bmrqu815ytcot" path="res://scenes/blocs/road_curve_left/road_curve_left.tscn" id="5_c187p"]
-[ext_resource type="PackedScene" uid="uid://bsaye3at58vna" path="res://scenes/blocs/road_curve_right/road_curve_right.tscn" id="6_3opbx"]
-[ext_resource type="PackedScene" uid="uid://8nw746thkdiv" path="res://scenes/blocs/road/road.tscn" id="6_heqav"]
-[ext_resource type="PackedScene" uid="uid://bkag7xqvcqiiq" path="res://scenes/blocs/road_slant_flat_curve_down/road_slant_flat_curve_down.tscn" id="7_k6wnd"]
+[ext_resource type="PackedScene" uid="uid://8nw746thkdiv" path="res://scenes/blocs/flat/road.tscn" id="2_lidps"]
+[ext_resource type="PackedScene" uid="uid://c4ciies80nty6" path="res://scenes/blocs/flat/road_bend_left.tscn" id="3_nu5gk"]
+[ext_resource type="PackedScene" uid="uid://dvjbvv8m647w2" path="res://scenes/blocs/flat/road_bend_right.tscn" id="4_e1q73"]
+[ext_resource type="PackedScene" uid="uid://bmrqu815ytcot" path="res://scenes/blocs/flat/road_curve_left.tscn" id="5_0056o"]
+[ext_resource type="PackedScene" uid="uid://bsaye3at58vna" path="res://scenes/blocs/flat/road_curve_right.tscn" id="6_0todr"]
+[ext_resource type="PackedScene" uid="uid://bkag7xqvcqiiq" path="res://scenes/blocs/slope/road_slant_flat_curve_down.tscn" id="7_pji3n"]
 [ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://scenes/environment/world_environment.tscn" id="7_urhx6"]
-[ext_resource type="PackedScene" uid="uid://ctt5rya4tbhk1" path="res://scenes/blocs/road_slant_flat_curve_up/road_slant_flat_curve_up.tscn" id="8_2ihpg"]
+[ext_resource type="PackedScene" uid="uid://ctt5rya4tbhk1" path="res://scenes/blocs/slope/road_slant_flat_curve_up.tscn" id="8_kjj6w"]
+[ext_resource type="PackedScene" uid="uid://th436bg25crk" path="res://scenes/blocs/tilted/left/road_tilt_left.tscn" id="9_2j1a4"]
+[ext_resource type="PackedScene" uid="uid://cp78k2qunt1av" path="res://scenes/blocs/tilted/left/road_tilted_left.tscn" id="9_nx0c4"]
+[ext_resource type="PackedScene" uid="uid://b1ttphg05wogw" path="res://scenes/blocs/tilted/left/road_untilt_left.tscn" id="10_d1113"]
 [ext_resource type="AudioStream" uid="uid://cyt7cb7spkct6" path="res://assets/musics/Chiptune Action Cool main.wav" id="11_061fw"]
+[ext_resource type="PackedScene" uid="uid://3e556ig7gtli" path="res://scenes/blocs/tilted/right/road_tilted_right.tscn" id="11_73wt4"]
 [ext_resource type="AudioStream" uid="uid://bpgipwl27358s" path="res://assets/musics/Chiptune Action Fun main.wav" id="12_i4y6x"]
+[ext_resource type="PackedScene" uid="uid://dqwb8w14iddh6" path="res://scenes/blocs/tilted/right/road_untilt_right.tscn" id="12_qd8vl"]
+[ext_resource type="PackedScene" uid="uid://ccd4ycx05joj3" path="res://scenes/blocs/tilted/right/road_tilt_right.tscn" id="13_1m3gp"]
 [ext_resource type="AudioStream" uid="uid://c8uy7v61nyolc" path="res://assets/musics/Chiptune Chilled Fun main.wav" id="13_ofifw"]
 [ext_resource type="AudioStream" uid="uid://dxj3r0uwsig2i" path="res://assets/musics/Chiptune Victory main.wav" id="14_oop5y"]
 
@@ -53,10 +59,10 @@ albedo_texture = SubResource("NoiseTexture2D_xmbdv")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_i4834"]
 material = SubResource("StandardMaterial3D_xcu3d")
-size = Vector2(500, 500)
+size = Vector2(1000, 1000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w64dm"]
-size = Vector3(500, 1, 500)
+size = Vector3(1000, 1, 1000)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dtnqd"]
 streams_count = 4
@@ -76,7 +82,7 @@ script = SubResource("GDScript_1twkq")
 
 [node name="RoadGenerator" type="Node3D" parent="."]
 script = ExtResource("1_f41a7")
-roads = Array[PackedScene]([ExtResource("6_heqav"), ExtResource("3_7g4pi"), ExtResource("4_bb1yp"), ExtResource("5_c187p"), ExtResource("6_3opbx"), ExtResource("7_k6wnd"), ExtResource("8_2ihpg")])
+roads = Array[PackedScene]([ExtResource("2_lidps"), ExtResource("3_nu5gk"), ExtResource("4_e1q73"), ExtResource("5_0056o"), ExtResource("6_0todr"), ExtResource("7_pji3n"), ExtResource("8_kjj6w"), ExtResource("9_nx0c4"), ExtResource("9_2j1a4"), ExtResource("10_d1113"), ExtResource("11_73wt4"), ExtResource("13_1m3gp"), ExtResource("12_qd8vl")])
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("7_urhx6")]
 
