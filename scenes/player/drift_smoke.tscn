@@ -1,6 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsvnh8f4yndmx"]
+[gd_scene load_steps=9 format=3 uid="uid://bsvnh8f4yndmx"]
 
 [ext_resource type="Texture2D" uid="uid://dl3w7jjet12sp" path="res://assets/smoke-particle.png" id="1_gaj1b"]
+
+[sub_resource type="Gradient" id="Gradient_l7kr4"]
+offsets = PackedFloat32Array(0, 0.267176, 0.684478, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d2iip"]
+gradient = SubResource("Gradient_l7kr4")
 
 [sub_resource type="Curve" id="Curve_ukgv4"]
 _data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -11,23 +18,26 @@ curve = SubResource("Curve_ukgv4")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tjgpx"]
 emission_shape = 1
-emission_sphere_radius = 0.3
+emission_sphere_radius = 0.2
 direction = Vector3(0, 1, 0)
 spread = 0.0
 gravity = Vector3(0, 0, 0)
-initial_velocity_min = 0.25
+initial_velocity_min = 0.1
 initial_velocity_max = 1.0
-linear_accel_min = 0.5
-linear_accel_max = 1.0
+linear_accel_max = 0.5
 radial_accel_max = 1.0
+angle_min = -180.0
+angle_max = 180.0
 scale_min = 0.5
 scale_curve = SubResource("CurveTexture_xe6sn")
+color_ramp = SubResource("GradientTexture1D_d2iip")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_njdi8"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_color = Color(0.393086, 0.393085, 0.393086, 0.588235)
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.392157, 0.392157, 0.392157, 0.588235)
 albedo_texture = ExtResource("1_gaj1b")
 billboard_mode = 3
 billboard_keep_scale = true
@@ -39,6 +49,6 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_njdi8")
 
 [node name="DriftSmoke" type="GPUParticles3D"]
-amount = 100
+amount = 50
 process_material = SubResource("ParticleProcessMaterial_tjgpx")
 draw_pass_1 = SubResource("QuadMesh_3dukc")

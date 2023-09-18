@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cug0e6ajqr1df"]
+[gd_scene load_steps=27 format=3 uid="uid://cug0e6ajqr1df"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_dfnav"]
 [ext_resource type="LabelSettings" uid="uid://dk18e2f56klv8" path="res://scenes/ui/font_24.tres" id="2_1jso6"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://badi3jprti6bb" path="res://scenes/player/ui/checkpoint_time_display/checkpoint_time_display.tscn" id="3_18sqn"]
 [ext_resource type="PackedScene" uid="uid://caxfl4ewq87et" path="res://scenes/player/ui/map_information/map_information.tscn" id="3_va2fo"]
 [ext_resource type="PackedScene" uid="uid://b7xahwrsvqpb8" path="res://scenes/ui/menus/end_screen/end_screen.tscn" id="4_8im6c"]
+[ext_resource type="Script" path="res://addons/proton_trail-master/proton_trail.gd" id="9_w2kl6"]
+[ext_resource type="PackedScene" uid="uid://bkohjjxrjm3g3" path="res://scenes/player/camera.tscn" id="10_vswfq"]
 
 [sub_resource type="Gradient" id="Gradient_ehij4"]
 offsets = PackedFloat32Array(0, 0.333, 0.667, 1)
@@ -215,25 +217,38 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_v1jny")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_epdpj"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0.607843)
+
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_bdqxp"]
 
-[sub_resource type="GDScript" id="GDScript_gpq5r"]
+[sub_resource type="GDScript" id="GDScript_kdrns"]
 script/source = "extends FOVCamera
 
 
+## Minimum distance from the target_pos.
 @export var min_distance = 2.0
+## Maximum distance from the target_pos.
 @export var max_distance = 6.0
+
 @export var angle_v_adjust = 0.0
 
+## Height of the camera.
 @export var height = 1.5
-var collision_exception = []
+
+var collision_exception: Array[RID] = []
+
+var _target: Node3D
 
 
-func _ready():
+func _ready() -> void:
   # Find collision exceptions for ray.
   var node = self
-  while(node):
-    if (node is RigidBody3D):
+  while node:
+    if node is RigidBody3D:
       collision_exception.append(node.get_rid())
       break
     else:
@@ -241,33 +256,34 @@ func _ready():
 
   # This detaches the camera transform from the parent spatial node.
   set_as_top_level(true)
+  _target = get_parent()
 
 
-func _physics_process(_delta):
-  var target = get_parent().get_global_transform().origin
-  var pos = get_global_transform().origin
-
-  var from_target = pos - target
+func _physics_process(_delta: float) -> void:
+  var target_pos: Vector3 = _target.global_position
+  var current_pos: Vector3 = global_position
+  var delta_pos: Vector3 = current_pos - target_pos
 
   # Check ranges.
-  if from_target.length() < min_distance:
-    from_target = from_target.normalized() * min_distance
-  elif from_target.length() > max_distance:
-    from_target = from_target.normalized() * max_distance
+  if delta_pos.length() < min_distance:
+    delta_pos = delta_pos.normalized() * min_distance
+  elif delta_pos.length() > max_distance:
+    delta_pos = delta_pos.normalized() * max_distance
 
-  from_target.y = height
+  delta_pos.y = height
 
-  pos = target + from_target
+  current_pos = target_pos + delta_pos
 
-  look_at_from_position(pos, target, Vector3.UP)
+  look_at_from_position(current_pos, target_pos, Vector3.UP)
 
   # Turn a little up or down
-  var t = get_transform()
-  t.basis = Basis(t.basis[0], deg_to_rad(angle_v_adjust)) * t.basis
-  set_transform(t)
+  # var t = get_transform()
+  # t.basis = Basis(t.basis[0], deg_to_rad(angle_v_adjust)) * t.basis
+  # set_transform(t)
 "
 
 [node name="Player" type="VehicleBody3D"]
+collision_layer = 2
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0.2, 0.3)
 script = ExtResource("1_dfnav")
@@ -423,6 +439,21 @@ transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.15, 0
 mesh = SubResource("ArrayMesh_svf23")
 skeleton = NodePath("")
 
+[node name="DriftTrail_B_L" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.5, 0.05, 0.880114)
+script = ExtResource("9_w2kl6")
+material = SubResource("StandardMaterial3D_epdpj")
+life_time = 1.0
+cast_shadow = false
+emit = false
+
+[node name="Top" type="Marker3D" parent="DriftTrail_B_L"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+
+[node name="Bottom" type="Marker3D" parent="DriftTrail_B_L"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+
 [node name="Wheel_B_R" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.35, 0.880114)
@@ -444,6 +475,21 @@ emitting = false
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.15, 0, 2.38419e-07)
 mesh = SubResource("ArrayMesh_svf23")
 skeleton = NodePath("")
+
+[node name="DriftTrail_B_R" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.5, 0.05, 0.880114)
+script = ExtResource("9_w2kl6")
+material = SubResource("StandardMaterial3D_epdpj")
+life_time = 1.0
+cast_shadow = false
+emit = false
+
+[node name="Top" type="Marker3D" parent="DriftTrail_B_R"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="Bottom" type="Marker3D" parent="DriftTrail_B_R"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
 
 [node name="Wheel_F_L" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
@@ -467,6 +513,21 @@ transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.15, 0
 mesh = SubResource("ArrayMesh_svf23")
 skeleton = NodePath("")
 
+[node name="DriftTrail_F_L" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.5, 0.05, -0.64)
+script = ExtResource("9_w2kl6")
+material = SubResource("StandardMaterial3D_epdpj")
+life_time = 1.0
+cast_shadow = false
+emit = false
+
+[node name="Top" type="Marker3D" parent="DriftTrail_F_L"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+
+[node name="Bottom" type="Marker3D" parent="DriftTrail_F_L"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+
 [node name="Wheel_F_R" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, 0.5, 0.35, -0.639886)
@@ -489,19 +550,43 @@ transform = Transform3D(-1, 0, 8.9407e-08, 0, 1, 0, -8.9407e-08, 0, -1, 0.15, 0,
 mesh = SubResource("ArrayMesh_svf23")
 skeleton = NodePath("")
 
+[node name="DriftTrail_F_R" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.5, 0.05, -0.64)
+script = ExtResource("9_w2kl6")
+material = SubResource("StandardMaterial3D_epdpj")
+life_time = 1.0
+cast_shadow = false
+emit = false
+
+[node name="Top" type="Marker3D" parent="DriftTrail_F_R"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="Bottom" type="Marker3D" parent="DriftTrail_F_R"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamGenerator_bdqxp")
 autoplay = true
 
+[node name="CustomCamera" parent="." instance=ExtResource("10_vswfq")]
+unique_name_in_owner = true
+
+[node name="Camera3D" parent="CustomCamera" index="2"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3, 5.19615)
+
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 4)
-current = true
-script = SubResource("GDScript_gpq5r")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 4)
+visible = false
+cull_mask = 1048574
+script = SubResource("GDScript_kdrns")
 max_distance = 8.0
-height = 4.0
+height = 3.0
 
 [connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Next" to="." method="_on_next_pressed"]
 [connection signal="pressed" from="Control/EscapeScreen/Panel/MarginContainer/VBoxContainer/Home" to="." method="_on_home_button_pressed"]
+
+[editable path="CustomCamera"]

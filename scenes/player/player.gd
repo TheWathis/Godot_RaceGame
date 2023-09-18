@@ -33,7 +33,8 @@ var paused: bool = false
 
 func _ready() -> void:
   %MapInformation.set_map_seed(Random.rng.seed)
-  %Camera3D.current = true
+  # %Camera3D.current = true
+  %CustomCamera.get_node("Camera3D").current = true
   %CheckpointCounter.set_total_checkpoint(map.checkpoints.size())
   MapsInfo.increment_played(Random.rng.seed)
 
@@ -86,6 +87,11 @@ func _physics_process(delta: float) -> void:
     desired_engine_force = 0
     brake = 1.0
 
+  var init_pos: Vector3 = %CustomCamera.get_node("Target").global_position
+  var v_direction: Vector3 = linear_velocity.normalized()
+  var dest_pos: Vector3 = global_position + linear_velocity.length() / 5.0 * v_direction
+  %CustomCamera.get_node("Target").global_position = lerp(init_pos, dest_pos, 0.1)
+
   # If the car is moving on their basis z axis, apply a downforce to the car.
   if forward_movement.length() > 0.1:
     constant_force = Vector3(0, -clamp(linear_velocity.length(), 0.0, 25.0) * 80, 0)
@@ -118,22 +124,30 @@ func _physics_process(delta: float) -> void:
   
   steering = move_toward(steering, steer_target, STEER_SPEED * delta)
   
-  if %Wheel_F_L.get_skidinfo() < 0.3:
+  if %Wheel_F_L.get_skidinfo() < 0.75:
     %Wheel_F_L.get_node("DriftSmoke").emitting = true
+    %DriftTrail_F_L.emit = true
   else:
     %Wheel_F_L.get_node("DriftSmoke").emitting = false
-  if %Wheel_F_R.get_skidinfo() < 0.3:
+    %DriftTrail_F_L.emit = false
+  if %Wheel_F_R.get_skidinfo() < 0.75:
     %Wheel_F_R.get_node("DriftSmoke").emitting = true
+    %DriftTrail_F_R.emit = true
   else:
     %Wheel_F_R.get_node("DriftSmoke").emitting = false
-  if %Wheel_B_L.get_skidinfo() < 0.3:
+    %DriftTrail_F_R.emit = false
+  if %Wheel_B_L.get_skidinfo() < 0.75:
     %Wheel_B_L.get_node("DriftSmoke").emitting = true
+    %DriftTrail_B_L.emit = true
   else:
     %Wheel_B_L.get_node("DriftSmoke").emitting = false
-  if %Wheel_B_R.get_skidinfo() < 0.3:
+    %DriftTrail_B_L.emit = false
+  if %Wheel_B_R.get_skidinfo() < 0.75:
     %Wheel_B_R.get_node("DriftSmoke").emitting = true
+    %DriftTrail_B_R.emit = true
   else:
     %Wheel_B_R.get_node("DriftSmoke").emitting = false
+    %DriftTrail_B_R.emit = false
 
   if not ended and not paused:
     if Input.is_action_just_pressed("ui_accept"):
@@ -211,7 +225,7 @@ func respawn_last_saved_position() -> void:
   steering = 0.0
   global_position = last_respawn_position
   global_transform.basis = last_respawn_basis
-  %Camera3D.position = Vector3(0, 4, 4)
+  # %Camera3D.position = Vector3(0, 4, 4)
   set_physics_process_internal(true)
   set_physics_process(true)
 

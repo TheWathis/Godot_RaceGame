@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkohjjxrjm3g3"]
+
+[ext_resource type="Script" path="res://scenes/player/camera.gd" id="1_pjylb"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Target" type="Marker3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3.5, 5.19615)
+top_level = true
+current = true
+script = ExtResource("1_pjylb")
+height = 3.0

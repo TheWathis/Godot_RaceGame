@@ -4,7 +4,11 @@ extends Control
 
 
 func _ready() -> void:
-  %NextSeed.text = str(Random.rng.randi())
+  var save_seed: int = Random.rng.seed
+  Random.rng.randomize()
+  var next_seed: int = Random.rng.seed
+  Random.rng.seed = save_seed
+  %NextSeed.text = str(next_seed)
 
 
 func set_end_time(end_time: float) -> void:

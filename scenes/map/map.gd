@@ -85,19 +85,30 @@ func add_start(world_position: Vector3) -> void:
 ## Add a checkpoint.
 func add_checkpoint() -> void:
   var checkpoint: Checkpoint = _checkpoint_scene.instantiate()
+  
   if not can_add_bloc(checkpoint):
     checkpoint.queue_free()
     return
-  
-  add_bloc(checkpoint)
-  checkpoints.append(checkpoint)
+
+  if add_bloc(checkpoint):
+    checkpoints.append(checkpoint)
+  else:
+    checkpoint.queue_free()
 
 
 ## Add an end bloc at the given position.
 func add_end() -> void:
+  # Get the last connector inclination
+  var last_bloc: Bloc = blocs[-1]
+  var last_connector: Connector = last_bloc.get_empty_connectors()[0]
+  var inclination: int = last_connector.inclination
+
   var end: EndBloc = _end_scene.instantiate()
   add_bloc(end)
   end.map = self
+
+  # Rotate the end bloc
+  end.rotation.z = inclination * PI / 180
 
   set_best_times()
 

@@ -7,12 +7,12 @@
 [node name="RoadBendRight" type="Node3D"]
 script = ExtResource("1_r62mj")
 
-[node name="sharp_turn" parent="." instance=ExtResource("2_6hptg")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
-
 [node name="Connector_IN" parent="." instance=ExtResource("3_xlo1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
 color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="Connector_OUT" parent="." instance=ExtResource("3_xlo1y")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7, 0, 0)
+
+[node name="sharp_turn" parent="." instance=ExtResource("2_6hptg")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
