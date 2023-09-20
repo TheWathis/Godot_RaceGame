@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bkag7xqvcqiiq"]
+
+[ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="1_nbruo"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="2_84wsv"]
+[ext_resource type="PackedScene" uid="uid://bcxptjmtsr24k" path="res://scenes/blocs/assets/slope_up.glb" id="2_knhiw"]
+
+[node name="RoadSlopeDown" type="Node3D"]
+script = ExtResource("1_nbruo")
+height_delta = -2
+
+[node name="slope_up" parent="." instance=ExtResource("2_knhiw")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Connector_IN" parent="." instance=ExtResource("2_84wsv")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 5, 20)
+
+[node name="Connector_OUT" parent="." instance=ExtResource("2_84wsv")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0)

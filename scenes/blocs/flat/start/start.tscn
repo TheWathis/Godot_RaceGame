@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://bsjjr4qwe5ilk"]
 
 [ext_resource type="Script" path="res://scenes/blocs/flat/start/start.gd" id="1_xyoya"]
-[ext_resource type="PackedScene" uid="uid://bdc6vh0np0tju" path="res://scenes/blocs/assets/basic_road_end.glb" id="2_c27lv"]
+[ext_resource type="PackedScene" uid="uid://b1f8uva4tu4pr" path="res://scenes/blocs/assets/flat_road_end.glb" id="2_roh8y"]
 [ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="3_x6ovj"]
 
 [node name="Start" type="Node3D"]
 script = ExtResource("1_xyoya")
 
-[node name="basic_road_end" parent="." instance=ExtResource("2_c27lv")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+[node name="flat_road_end" parent="." instance=ExtResource("2_roh8y")]
+transform = Transform3D(-1, 0, 8.9407e-08, 0, 1, 0, -8.9407e-08, 0, -1, 0, 0, 3)
 
 [node name="Connector_OUT" parent="." instance=ExtResource("3_x6ovj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)

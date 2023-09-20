@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cg8y05aj78yvc"]
+[gd_scene load_steps=29 format=3 uid="uid://cg8y05aj78yvc"]
 
 [ext_resource type="Script" path="res://home.gd" id="1_knx7k"]
 [ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://scenes/environment/world_environment.tscn" id="2_1lxeg"]
@@ -7,13 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://c8ownil452bku" path="res://scenes/ui/leader_board.tscn" id="4_qp66u"]
 [ext_resource type="PackedScene" uid="uid://b2yb2umddwmwh" path="res://scenes/ui/menus/settings/settings.tscn" id="6_t7uq3"]
 [ext_resource type="Script" path="res://scenes/player/fov_camera.gd" id="6_u1874"]
-[ext_resource type="PackedScene" uid="uid://c4ur0lv3ejhgw" path="res://scenes/blocs/assets/tilted_road_right.glb" id="7_c4gl4"]
-[ext_resource type="PackedScene" uid="uid://bolpmwf5csoqt" path="res://scenes/blocs/assets/soft_turn.glb" id="8_5vd7q"]
-[ext_resource type="PackedScene" uid="uid://brfjya3riueuh" path="res://scenes/blocs/assets/sharp_turn.glb" id="9_ia4fv"]
-[ext_resource type="PackedScene" uid="uid://bjnuduw2b0ga5" path="res://scenes/blocs/assets/basic_up.glb" id="10_rk3u1"]
-[ext_resource type="PackedScene" uid="uid://chv01utvnx7rx" path="res://scenes/blocs/assets/tilted_road_left.glb" id="11_r85gx"]
-[ext_resource type="PackedScene" uid="uid://djii1p2wdecsy" path="res://scenes/blocs/assets/light_curvedDouble.glb" id="13_gedsw"]
-[ext_resource type="PackedScene" uid="uid://bd63nay5x3sq2" path="res://scenes/blocs/assets/basic_road.glb" id="13_gg6mg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nf5bf"]
 font_size = 64
@@ -480,84 +473,6 @@ autoplay = true
 bus = &"Music"
 
 [node name="Roads" type="Node3D" parent="."]
-
-[node name="tilted_road_right" parent="Roads" instance=ExtResource("7_c4gl4")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 36)
-
-[node name="soft_turn" parent="Roads" instance=ExtResource("8_5vd7q")]
-transform = Transform3D(1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, 0, 0, 2)
-
-[node name="soft_turn3" parent="Roads" instance=ExtResource("8_5vd7q")]
-transform = Transform3D(-2.06632e-07, 0, -1, 0, 1, 0, 1, 0, -2.06632e-07, 0, 7, 140)
-
-[node name="soft_turn5" parent="Roads" instance=ExtResource("8_5vd7q")]
-transform = Transform3D(1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, 49, 7, 112.119)
-
-[node name="soft_turn2" parent="Roads" instance=ExtResource("8_5vd7q")]
-transform = Transform3D(-3.17865e-08, 0, -1, 0, 1, 0, 1, 0, -3.17865e-08, -28, 7, 64)
-
-[node name="sharp_turn" parent="Roads" instance=ExtResource("9_ia4fv")]
-transform = Transform3D(1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, -28, 0, 2)
-
-[node name="sharp_turn2" parent="Roads" instance=ExtResource("9_ia4fv")]
-transform = Transform3D(1, 0, -1.62921e-07, 0, 1, 0, 1.62921e-07, 0, 1, 21, 14, 64)
-
-[node name="sharp_turn3" parent="Roads" instance=ExtResource("9_ia4fv")]
-transform = Transform3D(-1, 0, 7.54979e-08, 0, 1, 0, -7.54979e-08, 0, -1, 21, 7, 112.121)
-
-[node name="sharp_turn4" parent="Roads" instance=ExtResource("9_ia4fv")]
-transform = Transform3D(-3.17865e-08, 0, -1, 0, 1, 0, 1, 0, -3.17865e-08, 49, 7, 140.121)
-
-[node name="basic_up" parent="Roads" instance=ExtResource("10_rk3u1")]
-transform = Transform3D(-1, 0, 7.54979e-08, 0, 1, 0, -7.54979e-08, 0, -1, -28, 0, 23)
-
-[node name="basic_up4" parent="Roads" instance=ExtResource("10_rk3u1")]
-transform = Transform3D(-1, 0, 7.54979e-08, 0, 1, 0, -7.54979e-08, 0, -1, 0, 0, 91)
-
-[node name="basic_up2" parent="Roads" instance=ExtResource("10_rk3u1")]
-transform = Transform3D(-3.17865e-08, 0, -1, 0, 1, 0, 1, 0, -3.17865e-08, 7, 7, 64)
-
-[node name="basic_up3" parent="Roads" instance=ExtResource("10_rk3u1")]
-transform = Transform3D(1, 0, 1.19249e-08, 0, 1, 0, -1.19249e-08, 0, 1, 21, 7, 78)
-
-[node name="tilted_road_left" parent="Roads" instance=ExtResource("11_r85gx")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 63)
-
-[node name="Checkpoint" type="Node3D" parent="Roads"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28, 7, 36)
-
-[node name="basic_road" parent="Roads/Checkpoint" instance=ExtResource("13_gg6mg")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
-
-[node name="light_curvedDouble" parent="Roads/Checkpoint" instance=ExtResource("13_gedsw")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.7, 0, 0)
-
-[node name="light_curvedDouble2" parent="Roads/Checkpoint" instance=ExtResource("13_gedsw")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.7, 0, 0)
-
-[node name="Checkpoint3" type="Node3D" parent="Roads"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 7, 99)
-
-[node name="basic_road" parent="Roads/Checkpoint3" instance=ExtResource("13_gg6mg")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
-
-[node name="light_curvedDouble" parent="Roads/Checkpoint3" instance=ExtResource("13_gedsw")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.7, 0, 0)
-
-[node name="light_curvedDouble2" parent="Roads/Checkpoint3" instance=ExtResource("13_gedsw")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.7, 0, 0)
-
-[node name="basic_road" parent="Roads" instance=ExtResource("13_gg6mg")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 7, 105)
-
-[node name="basic_road2" parent="Roads" instance=ExtResource("13_gg6mg")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 7, 115)
-
-[node name="basic_road4" parent="Roads" instance=ExtResource("13_gg6mg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 7, 140)
-
-[node name="basic_road5" parent="Roads" instance=ExtResource("13_gg6mg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 7, 140)
 
 [connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Generate" to="." method="_on_generate_pressed"]
 [connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]

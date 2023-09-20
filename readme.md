@@ -19,13 +19,20 @@ The tracks are procedurally generated, the car use godot car physics.
 
 - [ ] Add a leader-board
 
+## v0.5
+
+- [ ] Add a rate system
+- [ ] Add narrow blocs
+- [ ] Add trees and butterflies <!-- Histo -->
+
 ## v0.4
 
-- [ ] Add a base leader-board
+- [x] Add a base leader-board
 - [ ] Add car sound
-- [ ] Add more blocs
+- [~] Add more blocs
+- [ ] Update connectors to take inclination (slope)
+- [ ] Update car physics
 - [~] Update camera to aim in front of the car
-- [ ] Add trees and butterflies <!-- Histo -->
 - [x] Add a control settings menu
 
 ## v0.3

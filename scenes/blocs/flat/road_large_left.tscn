@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfbd4fabtoxlv"]
+
+[ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="1_65a5h"]
+[ext_resource type="PackedScene" uid="uid://cwl68svndijgr" path="res://scenes/blocs/assets/flat_large_turn.glb" id="2_ir3ht"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="3_r7ho0"]
+
+[node name="RoadLargeLeft" type="Node3D"]
+script = ExtResource("1_65a5h")
+
+[node name="flat_large_turn" parent="." instance=ExtResource("2_ir3ht")]
+
+[node name="Connector_IN" parent="." instance=ExtResource("3_r7ho0")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 30, 0, 0)
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Connector_OUT" parent="." instance=ExtResource("3_r7ho0")]
+transform = Transform3D(-2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, 0, 0, -30)

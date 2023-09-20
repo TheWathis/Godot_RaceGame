@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://4q872nna1qeu"]
+
+[ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="1_1i4we"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="2_jeisu"]
+[ext_resource type="PackedScene" uid="uid://jtvyl5no5vxb" path="res://scenes/blocs/assets/tilt_turn.glb" id="3_ob7yr"]
+
+[node name="TiltedTurnLeft" type="Node3D"]
+script = ExtResource("1_1i4we")
+
+[node name="Connector_IN" parent="." instance=ExtResource("2_jeisu")]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, 20, 4, 0)
+color = Color(0.2, 0.2, 0.2, 1)
+inclination = 25
+
+[node name="Connector_OUT" parent="." instance=ExtResource("2_jeisu")]
+transform = Transform3D(-3.9616e-08, 1.84732e-08, 1, 0.422618, 0.906308, 2.68263e-14, -0.906308, 0.422618, -4.37114e-08, 0, 4, -20)
+color = Color(0.2, 0.2, 0.2, 1)
+inclination = 25
+
+[node name="tilt_turn" parent="." instance=ExtResource("3_ob7yr")]

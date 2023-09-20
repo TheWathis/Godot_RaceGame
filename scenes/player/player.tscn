@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://cug0e6ajqr1df"]
 
-[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_dfnav"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_67x4f"]
 [ext_resource type="LabelSettings" uid="uid://dk18e2f56klv8" path="res://scenes/ui/font_24.tres" id="2_1jso6"]
 [ext_resource type="PackedScene" uid="uid://c2whlufh16yof" path="res://scenes/player/ui/checkpoint_counter/checkpoint_counter.tscn" id="2_1srwk"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
@@ -286,7 +286,7 @@ func _physics_process(_delta: float) -> void:
 collision_layer = 2
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0.2, 0.3)
-script = ExtResource("1_dfnav")
+script = ExtResource("1_67x4f")
 
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.3)
@@ -416,6 +416,7 @@ shape = SubResource("ConvexPolygonShape3D_5k0xc")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.25, -1)
 shape = SubResource("CapsuleShape3D_xevga")
+disabled = true
 
 [node name="Wheel_B_L" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
@@ -572,8 +573,8 @@ autoplay = true
 [node name="CustomCamera" parent="." instance=ExtResource("10_vswfq")]
 unique_name_in_owner = true
 
-[node name="Camera3D" parent="CustomCamera" index="2"]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3, 5.19615)
+[node name="Camera3D" parent="CustomCamera" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.86285, 0.50546, 0, -0.50546, 0.86285, 0, 3.5, 5.12118)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true

@@ -1,21 +1,21 @@
 [gd_scene load_steps=6 format=3 uid="uid://bbxwioj168bms"]
 
 [ext_resource type="Script" path="res://scenes/blocs/flat/end/end.gd" id="1_2bkq3"]
-[ext_resource type="PackedScene" uid="uid://bdc6vh0np0tju" path="res://scenes/blocs/assets/basic_road_end.glb" id="2_fd06g"]
+[ext_resource type="PackedScene" uid="uid://b1f8uva4tu4pr" path="res://scenes/blocs/assets/flat_road_end.glb" id="2_cc0b3"]
 [ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="3_fh27j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nf0b7"]
-size = Vector3(13, 3.5, 7)
+size = Vector3(19, 3.5, 9)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_wdc6j"]
 height = 3.5
-radius = 6.5
+radius = 9.5
 
 [node name="End" type="Node3D"]
 script = ExtResource("1_2bkq3")
 
-[node name="basic_road_end" parent="." instance=ExtResource("2_fd06g")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+[node name="flat_road_end" parent="." instance=ExtResource("2_cc0b3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 
 [node name="Connector_IN" parent="." instance=ExtResource("3_fh27j")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 7)
@@ -26,11 +26,11 @@ transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0)
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EndDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.74846e-07, 1.8, 2)
 shape = SubResource("BoxShape3D_nf0b7")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="EndDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.24538e-07, 1.8, -3)
 shape = SubResource("CylinderShape3D_wdc6j")
 
 [connection signal="body_entered" from="EndDetector" to="." method="_on_end_detector_body_entered"]

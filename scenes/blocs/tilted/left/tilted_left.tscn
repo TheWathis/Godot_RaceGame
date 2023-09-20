@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp78k2qunt1av"]
+
+[ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="1_fjyon"]
+[ext_resource type="PackedScene" uid="uid://drlwq07rly1as" path="res://scenes/connector/connector.tscn" id="2_os4bh"]
+[ext_resource type="PackedScene" uid="uid://dmcaoj7xfioy0" path="res://scenes/blocs/assets/flat_road.glb" id="3_yy55x"]
+
+[node name="RoadTiltedLeft" type="Node3D"]
+script = ExtResource("1_fjyon")
+
+[node name="Connector_IN" parent="." instance=ExtResource("2_os4bh")]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, 0, 0, 0)
+color = Color(0.2, 0.2, 0.2, 1)
+inclination = 25
+
+[node name="Connector_OUT" parent="." instance=ExtResource("2_os4bh")]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, 0, 0, -20)
+color = Color(0.2, 0.2, 0.2, 1)
+inclination = 25
+
+[node name="flat_road" parent="." instance=ExtResource("3_yy55x")]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, 0, 0, 0)
