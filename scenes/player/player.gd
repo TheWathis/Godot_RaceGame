@@ -150,7 +150,7 @@ func _physics_process(delta: float) -> void:
     %DriftTrail_B_R.emit = false
 
   if not ended and not paused:
-    if Input.is_action_just_pressed("ui_accept"):
+    if Input.is_action_just_pressed("restart_checkpoint"):
       respawn_last_saved_position()
     
     if Input.is_action_just_pressed("restart_map"):

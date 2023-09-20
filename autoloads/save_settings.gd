@@ -1,6 +1,7 @@
 extends Node
 
 const SETTINGS_FILE: String = "user://settings.ini"
+const ACTIONS_EVENTS_FILE: String = "user://actions_events.ini"
 const DEFAULT_SETTINGS: Dictionary = {
   # Interface settings
   "ui_scale": 2,           # 0 = 66%, 1 = 80%, 2 = 100%, 3 = 133%, 4 = 200%
@@ -93,9 +94,45 @@ func load_data() -> void:
     game_settings.merge(file.get_var(), true)
     file.close()
 
+  if not FileAccess.file_exists(ACTIONS_EVENTS_FILE):
+    save_actions_events()
+  else:
+    var file: FileAccess = FileAccess.open(ACTIONS_EVENTS_FILE, FileAccess.READ)
+    var actions_events: Dictionary = file.get_var()
+    file.close()
+    
+    var actions: Array[StringName] = InputMap.get_actions()
+    for action in actions:
+      if not actions_events.has(action):
+        continue
+      if action.begins_with("ui_"):
+        continue
+
+      var input_event: InputEvent = InputEventKey.new()
+      input_event.physical_keycode = actions_events[action]
+      InputMap.action_erase_events(action)
+      InputMap.action_add_event(action, input_event)
+
 
 ## Save the current settings to the settings file
 func save_data() -> void:
   var file: FileAccess = FileAccess.open(SETTINGS_FILE, FileAccess.WRITE)
   file.store_var(game_settings)
+  file.close()
+
+
+## Save the current actions and events to the actions_events file
+func save_actions_events() -> void:
+  var file: FileAccess = FileAccess.open(ACTIONS_EVENTS_FILE, FileAccess.WRITE)
+  var actions_events: Dictionary = {}
+  var actions: Array = InputMap.get_actions()
+  for action in actions:
+    if action.begins_with("ui_"):
+      continue
+    
+    var input_events: Array = InputMap.action_get_events(action)
+    print(input_events[0].physical_keycode)
+    actions_events[action] = input_events[0].physical_keycode
+  
+  file.store_var(actions_events)
   file.close()

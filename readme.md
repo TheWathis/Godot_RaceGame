@@ -21,10 +21,12 @@ The tracks are procedurally generated, the car use godot car physics.
 
 ## v0.4
 
+- [ ] Add a base leader-board
 - [ ] Add car sound
 - [ ] Add more blocs
-- [x] Update camera to aim in front of the car
-- [ ] Add a control settings menu
+- [~] Update camera to aim in front of the car
+- [ ] Add trees and butterflies <!-- Histo -->
+- [x] Add a control settings menu
 
 ## v0.3
 

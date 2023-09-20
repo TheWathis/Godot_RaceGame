@@ -8,6 +8,10 @@ var viewport_start_size: Vector2i = Vector2i(
   ProjectSettings.get_setting(&"display/window/size/viewport_height")
 )
 
+var _action_event_item_scene: PackedScene = preload(
+  "res://scenes/ui/component/action_event_item/action_event_item.tscn"
+)
+
 func _ready() -> void:
   # Graphic tab
   %UIScaleOptionButton.selected = SaveSettings.game_settings["ui_scale"]
@@ -37,6 +41,17 @@ func _ready() -> void:
   %MusicCheckBox.button_pressed = not SaveSettings.game_settings["music_muted"]
   %SFXSlider.value = SaveSettings.game_settings["sfx_volume"]
   %SFXCheckBox.button_pressed = not SaveSettings.game_settings["sfx_muted"]
+
+  # Controls tab
+  # Add a label for every event saved
+  for action in InputMap.get_actions():
+    if action.begins_with("ui_"):
+      continue
+    
+    var action_event_item: ActionEventItem = _action_event_item_scene.instantiate()
+    action_event_item.action_event = action
+    action_event_item.input_key = InputMap.action_get_events(action)[0].as_text_physical_keycode()
+    %ActionEventList.add_child(action_event_item)
 
 # Video settings.
 
