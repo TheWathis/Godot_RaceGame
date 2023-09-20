@@ -30,5 +30,11 @@ func _on_settings_pressed() -> void:
 
 func _on_back_home_pressed() -> void:
   SaveSettings.save_data()
-  %HomeMenu.show()
   %SettingsContainer.hide()
+  %LeaderboardContainer.hide()
+  %HomeMenu.show()
+
+
+func _on_finished_map_pressed() -> void:
+  %HomeMenu.hide()
+  %LeaderboardContainer.show()

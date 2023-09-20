@@ -624,6 +624,10 @@ unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
+[node name="Controls" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
 [connection signal="pressed" from="TabContainer/Graphics/MarginContainer/ScrollContainer/VBoxContainer/Presets/VeryLowPreset" to="." method="_on_very_low_preset_pressed"]
 [connection signal="pressed" from="TabContainer/Graphics/MarginContainer/ScrollContainer/VBoxContainer/Presets/LowPreset" to="." method="_on_low_preset_pressed"]
 [connection signal="pressed" from="TabContainer/Graphics/MarginContainer/ScrollContainer/VBoxContainer/Presets/MediumPreset" to="." method="_on_medium_preset_pressed"]

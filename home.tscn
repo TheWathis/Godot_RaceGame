@@ -1,9 +1,10 @@
-[gd_scene load_steps=35 format=3 uid="uid://cg8y05aj78yvc"]
+[gd_scene load_steps=36 format=3 uid="uid://cg8y05aj78yvc"]
 
 [ext_resource type="Script" path="res://home.gd" id="1_knx7k"]
 [ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://scenes/environment/world_environment.tscn" id="2_1lxeg"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_2qyew"]
 [ext_resource type="AudioStream" uid="uid://du6165v7h5ghu" path="res://assets/musics/Chiptune Happy main.wav" id="4_osooy"]
+[ext_resource type="PackedScene" uid="uid://c8ownil452bku" path="res://scenes/ui/leader_board.tscn" id="4_qp66u"]
 [ext_resource type="PackedScene" uid="uid://b2yb2umddwmwh" path="res://scenes/ui/menus/settings/settings.tscn" id="6_t7uq3"]
 [ext_resource type="Script" path="res://scenes/player/fov_camera.gd" id="6_u1874"]
 [ext_resource type="PackedScene" uid="uid://c4ur0lv3ejhgw" path="res://scenes/blocs/assets/tilted_road_right.glb" id="7_c4gl4"]
@@ -301,13 +302,22 @@ custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
 placeholder_text = "Your Seed"
 
-[node name="Generate" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="Generate" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_2qyew")]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Generate new seed"
 
-[node name="Play" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
+[node name="Play" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_2qyew")]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Play this seed"
+
+[node name="FinishedMap" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
+layout_mode = 2
+text = "Finished maps"
 
 [node name="Settings" parent="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer" instance=ExtResource("2_2qyew")]
 layout_mode = 2
@@ -336,6 +346,30 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 
 [node name="BackHome" parent="MainMenu/SettingsContainer" instance=ExtResource("2_2qyew")]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Return to home"
+
+[node name="LeaderboardContainer" type="MarginContainer" parent="MainMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="LeaderBoard" parent="MainMenu/LeaderboardContainer" instance=ExtResource("4_qp66u")]
+layout_mode = 2
+
+[node name="BackHome" parent="MainMenu/LeaderboardContainer" instance=ExtResource("2_2qyew")]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -525,8 +559,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 7, 140)
 [node name="basic_road5" parent="Roads" instance=ExtResource("13_gg6mg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 7, 140)
 
-[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Generate" to="." method="_on_generate_pressed"]
-[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Generate" to="." method="_on_generate_pressed"]
+[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/FinishedMap" to="." method="_on_finished_map_pressed"]
 [connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="MainMenu/SettingsContainer/BackHome" to="." method="_on_back_home_pressed"]
+[connection signal="pressed" from="MainMenu/LeaderboardContainer/BackHome" to="." method="_on_back_home_pressed"]
