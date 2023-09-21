@@ -1,4 +1,4 @@
-extends PanelContainer
+extends HBoxContainer
 
 
 func set_validated_checkpoint(validated_checkpoint: int) -> void:

@@ -1,10 +1,10 @@
 [gd_scene load_steps=27 format=3 uid="uid://cug0e6ajqr1df"]
 
-[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_67x4f"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_n358b"]
 [ext_resource type="LabelSettings" uid="uid://dk18e2f56klv8" path="res://scenes/ui/font_24.tres" id="2_1jso6"]
 [ext_resource type="PackedScene" uid="uid://c2whlufh16yof" path="res://scenes/player/ui/checkpoint_counter/checkpoint_counter.tscn" id="2_1srwk"]
 [ext_resource type="PackedScene" uid="uid://dtj4scvls875o" path="res://scenes/ui/component/sound_button/sound_button.tscn" id="2_d4fk4"]
-[ext_resource type="PackedScene" uid="uid://bsvnh8f4yndmx" path="res://scenes/player/drift_smoke.tscn" id="3_16xs5"]
+[ext_resource type="PackedScene" uid="uid://bsvnh8f4yndmx" path="res://scenes/player/effects/drift_smoke.tscn" id="3_16xs5"]
 [ext_resource type="PackedScene" uid="uid://badi3jprti6bb" path="res://scenes/player/ui/checkpoint_time_display/checkpoint_time_display.tscn" id="3_18sqn"]
 [ext_resource type="PackedScene" uid="uid://caxfl4ewq87et" path="res://scenes/player/ui/map_information/map_information.tscn" id="3_va2fo"]
 [ext_resource type="PackedScene" uid="uid://b7xahwrsvqpb8" path="res://scenes/ui/menus/end_screen/end_screen.tscn" id="4_8im6c"]
@@ -284,9 +284,10 @@ func _physics_process(_delta: float) -> void:
 
 [node name="Player" type="VehicleBody3D"]
 collision_layer = 2
+mass = 10.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0.2, 0.3)
-script = ExtResource("1_67x4f")
+script = ExtResource("1_n358b")
 
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.3)
@@ -310,16 +311,66 @@ offset_bottom = 23.0
 grow_horizontal = 0
 metadata/Gradient = SubResource("Gradient_ehij4")
 
-[node name="Timer" type="Label" parent="Control"]
-unique_name_in_owner = true
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -26.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Speed" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "999"
+horizontal_alignment = 2
+
+[node name="Gear" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+horizontal_alignment = 2
+
+[node name="RaceInformation" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.5
+offset_top = -78.0
+offset_right = 80.5
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/RaceInformation"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/RaceInformation/MarginContainer"]
+layout_mode = 2
+
+[node name="CheckpointCounter" parent="Control/RaceInformation/MarginContainer/VBoxContainer" instance=ExtResource("2_1srwk")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Timer" type="Label" parent="Control/RaceInformation/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 text = "00:00:00:0000"
 label_settings = ExtResource("2_1jso6")
 horizontal_alignment = 1
@@ -337,14 +388,6 @@ offset_right = 221.0
 offset_bottom = 72.0
 grow_horizontal = 1
 grow_vertical = 1
-
-[node name="CheckpointCounter" parent="Control" instance=ExtResource("2_1srwk")]
-unique_name_in_owner = true
-layout_mode = 1
-offset_left = 448.0
-offset_top = 188.0
-offset_right = 483.0
-offset_bottom = 214.0
 
 [node name="CheckpointTime" parent="Control" instance=ExtResource("3_18sqn")]
 unique_name_in_owner = true
@@ -425,9 +468,8 @@ use_as_traction = true
 wheel_roll_influence = 0.0
 wheel_radius = 0.3
 wheel_friction_slip = 5.0
-suspension_travel = 0.4
 suspension_stiffness = 200.0
-suspension_max_force = 24000.0
+suspension_max_force = 62000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
@@ -462,9 +504,8 @@ use_as_traction = true
 wheel_roll_influence = 0.0
 wheel_radius = 0.3
 wheel_friction_slip = 5.0
-suspension_travel = 0.4
 suspension_stiffness = 200.0
-suspension_max_force = 24000.0
+suspension_max_force = 62000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
@@ -499,9 +540,8 @@ use_as_traction = true
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 0.3
-suspension_travel = 0.4
 suspension_stiffness = 200.0
-suspension_max_force = 24000.0
+suspension_max_force = 62000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
@@ -536,9 +576,8 @@ use_as_traction = true
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 0.3
-suspension_travel = 0.4
 suspension_stiffness = 200.0
-suspension_max_force = 24000.0
+suspension_max_force = 62000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 

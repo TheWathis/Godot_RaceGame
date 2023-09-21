@@ -2,12 +2,14 @@ class_name Player extends VehicleBody3D
 
 # Car related
 
-const STEER_SPEED = 2.5
-const STEER_LIMIT = 0.15
+const STEER_SPEED: float = 2.5
+const STEER_LIMIT: float = 0.5
+const MAX_GEAR: int = 6
 
-@export var engine_force_value: int = 200
+@export var engine_force_value: int = 100
 
 var steer_target: float = 0.0
+var current_gear: int = 1
 
 # Map related
 
@@ -43,87 +45,84 @@ func _process(_delta: float) -> void:
   %Timer.text = Utils.convert_float_timer_to_string(GlobalTimer.timer)
   
   fps_label.text = "%d FPS (%.2f mspf)" % [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
-  fps_label.modulate = fps_label.get_meta("Gradient").sample(remap(Engine.get_frames_per_second(), 0, 180, 0.0, 1.0))
-
+  fps_label.modulate = fps_label.get_meta("Gradient").sample(
+    remap(Engine.get_frames_per_second(), 0, 180, 0.0, 1.0)
+  )
+  
+  %Speed.text = "%d km/h" % [linear_velocity.length() * 3.6]
+  %Gear.text = "%d" % [current_gear]
 
 func _physics_process(delta: float) -> void:
   var forward_movement: Vector3 = linear_velocity * transform.basis.z
-  var desired_engine_force: float = 0.0
+  # Revolution per minutes (it's wrong but w/e)
+  var rpm: float = 0.0
+
 
   if not ended and not paused:
     steer_target = Input.get_action_strength("turn_left") - Input.get_action_strength("turn_right")
-    steer_target *= STEER_LIMIT
+    steer_target *= lerp(0.0, STEER_LIMIT, 1.0 / (1.0 + sqrt(linear_velocity.length())))
+
+    var is_in_air: bool = not %Wheel_F_L.is_in_contact() and not %Wheel_F_R.is_in_contact() \
+      and not %Wheel_B_L.is_in_contact() and not %Wheel_B_R.is_in_contact()
 
     if Input.is_action_pressed("accelerate"):
-      # Increase engine force at low speeds to make the initial acceleration faster.
-      var speed: float = linear_velocity.length()
-      if speed < 5 and speed != 0:
-        desired_engine_force = clamp(engine_force_value * 5 / speed, 0, 100)
-      else:
-        desired_engine_force = engine_force_value
+      rpm = engine_force_value * current_gear
     else:
-      desired_engine_force = 0
+      rpm = 0
 
     if Input.is_action_pressed("brake"):
-      if not %Wheel_F_L.is_in_contact() \
-        and not %Wheel_F_R.is_in_contact() \
-        and not %Wheel_B_L.is_in_contact() \
-        and not %Wheel_B_R.is_in_contact():
+      if is_in_air:
         # If the car is in the air, stabilize it.
         angular_velocity = Vector3(0, 0, 0)
         
-      # Increase engine force at low speeds to make the initial acceleration faster.
       if forward_movement.length() >= -1:
-        var speed: float = linear_velocity.length()
-        if speed < 5 and speed != 0:
-          desired_engine_force = -clamp(engine_force_value * 5 / speed, 0, 100)
-        else:
-          desired_engine_force = -engine_force_value
+        rpm = -engine_force_value
       else:
-        brake = 1.0
+        brake = engine_force_value / 4.0
     else:
       brake = 0.0
   else:
-    desired_engine_force = 0
-    brake = 1.0
-
+    rpm = 0
+    brake = 0.0
+  
+  ## Downforce
   var init_pos: Vector3 = %CustomCamera.get_node("Target").global_position
   var v_direction: Vector3 = linear_velocity.normalized()
   var dest_pos: Vector3 = global_position + linear_velocity.length() / 5.0 * v_direction
   %CustomCamera.get_node("Target").global_position = lerp(init_pos, dest_pos, 0.1)
-
-  # If the car is moving on their basis z axis, apply a downforce to the car.
-  if forward_movement.length() > 0.1:
-    constant_force = Vector3(0, -clamp(linear_velocity.length(), 0.0, 25.0) * 80, 0)
-  else:
-    constant_force = Vector3(0, 0, 0)
-
+  
+  # # If the car is moving on their basis z axis, apply a downforce to the car.
+  constant_force = Vector3(0, -ease(linear_velocity.length() * 3.6 / 150.0, 2) * 1000, 0)
+  
+  ## Vehicleforce
   # Turn left
   if steer_target < 0:
     # Accelerate right wheels
-    %Wheel_F_R.engine_force = desired_engine_force / 2.0
-    %Wheel_B_R.engine_force = desired_engine_force / 2.0
+    %Wheel_F_R.engine_force = rpm / 3.0
+    %Wheel_B_R.engine_force = rpm / 3.0
     # Decelerate left wheels
-    %Wheel_F_L.engine_force = desired_engine_force / 8.0
-    %Wheel_B_L.engine_force = desired_engine_force / 8.0
+    %Wheel_F_L.engine_force = rpm / 6.0
+    %Wheel_B_L.engine_force = rpm / 6.0
   # Turn right
   elif steer_target > 0:
     # Accelerate left wheels
-    %Wheel_F_L.engine_force = desired_engine_force / 2.0
-    %Wheel_B_L.engine_force = desired_engine_force / 2.0
+    %Wheel_F_L.engine_force = rpm / 3.0
+    %Wheel_B_L.engine_force = rpm / 3.0
     # Decelerate right wheels
-    %Wheel_F_R.engine_force = desired_engine_force / 8.0
-    %Wheel_B_R.engine_force = desired_engine_force / 8.0
+    %Wheel_F_R.engine_force = rpm / 6.0
+    %Wheel_B_R.engine_force = rpm / 6.0
   # Go straight
   else:
     # Accelerate all wheels
-    %Wheel_F_L.engine_force = desired_engine_force / 2.0
-    %Wheel_F_R.engine_force = desired_engine_force / 2.0
-    %Wheel_B_L.engine_force = desired_engine_force / 2.0
-    %Wheel_B_R.engine_force = desired_engine_force / 2.0
+    %Wheel_F_L.engine_force = rpm / 4.0
+    %Wheel_F_R.engine_force = rpm / 4.0
+    %Wheel_B_L.engine_force = rpm / 4.0
+    %Wheel_B_R.engine_force = rpm / 4.0
   
+  ## Steering
   steering = move_toward(steering, steer_target, STEER_SPEED * delta)
   
+  ## Effects
   if %Wheel_F_L.get_skidinfo() < 0.75:
     %Wheel_F_L.get_node("DriftSmoke").emitting = true
     %DriftTrail_F_L.emit = true
@@ -148,6 +147,15 @@ func _physics_process(delta: float) -> void:
   else:
     %Wheel_B_R.get_node("DriftSmoke").emitting = false
     %DriftTrail_B_R.emit = false
+  
+  ## Gear
+  if rpm > 0:
+    if linear_velocity.length() > 2.4 * MAX_GEAR * current_gear:
+      current_gear = min(current_gear + 1, MAX_GEAR)
+    elif linear_velocity.length() < 1.8 * current_gear:
+      current_gear = max(current_gear - 1, 1)
+  else:
+    current_gear = max(current_gear - 1, 1)
 
   if not ended and not paused:
     if Input.is_action_just_pressed("restart_checkpoint"):

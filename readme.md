@@ -31,7 +31,7 @@ The tracks are procedurally generated, the car use godot car physics.
 - [ ] Add car sound
 - [~] Add tilted blocs
 - [x] Update connectors to take roll/pitch/wide into account
-- [ ] Update car physics
+- [x] Update car physics
 - [~] Update camera to aim in front of the car
 - [x] Add a control settings menu
 

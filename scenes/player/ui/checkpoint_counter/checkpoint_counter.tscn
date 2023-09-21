@@ -3,31 +3,14 @@
 [ext_resource type="Script" path="res://scenes/player/ui/checkpoint_counter/checkpoint_counter.gd" id="1_oeebk"]
 [ext_resource type="LabelSettings" uid="uid://dk18e2f56klv8" path="res://scenes/ui/font_24.tres" id="2_1l8p6"]
 
-[node name="CheckpointCounter" type="PanelContainer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -17.5
-offset_top = -13.0
-offset_right = 17.5
-offset_bottom = 13.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="HBoxContainer" type="HBoxContainer"]
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 53.0
+offset_bottom = 41.0
 script = ExtResource("1_oeebk")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-
-[node name="Validated" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="Validated" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -36,13 +19,13 @@ label_settings = ExtResource("2_1l8p6")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="."]
 layout_mode = 2
 text = "/"
 label_settings = ExtResource("2_1l8p6")
 vertical_alignment = 1
 
-[node name="Total" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="Total" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
