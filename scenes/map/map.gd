@@ -98,17 +98,17 @@ func add_checkpoint() -> void:
 
 ## Add an end bloc at the given position.
 func add_end() -> void:
-  # Get the last connector inclination
+  # Get the last connector roll
   var last_bloc: Bloc = blocs[-1]
   var last_connector: Connector = last_bloc.get_empty_connectors()[0]
-  var inclination: int = last_connector.inclination
+  var roll: int = last_connector.roll
 
   var end: EndBloc = _end_scene.instantiate()
   add_bloc(end)
   end.map = self
 
   # Rotate the end bloc
-  end.rotation.z = inclination * PI / 180
+  end.rotation.z = roll * PI / 180
 
   set_best_times()
 

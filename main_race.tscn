@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://daeqf725r5hs0"]
+[gd_scene load_steps=46 format=3 uid="uid://daeqf725r5hs0"]
 
 [ext_resource type="Script" path="res://road_generator.gd" id="1_f41a7"]
 [ext_resource type="PackedScene" uid="uid://8nw746thkdiv" path="res://scenes/blocs/flat/road.tscn" id="2_lidps"]
@@ -18,10 +18,10 @@
 [ext_resource type="PackedScene" uid="uid://3e556ig7gtli" path="res://scenes/blocs/tilted/right/tilted_right.tscn" id="13_kqjp8"]
 [ext_resource type="AudioStream" uid="uid://c8uy7v61nyolc" path="res://assets/musics/Chiptune Chilled Fun main.wav" id="13_ofifw"]
 [ext_resource type="AudioStream" uid="uid://dxj3r0uwsig2i" path="res://assets/musics/Chiptune Victory main.wav" id="14_oop5y"]
-[ext_resource type="PackedScene" uid="uid://ccd4ycx05joj3" path="res://scenes/blocs/tilted/right/road_tilt_right.tscn" id="14_uennv"]
-[ext_resource type="PackedScene" uid="uid://dqwb8w14iddh6" path="res://scenes/blocs/tilted/right/road_untilt_right.tscn" id="15_57vuk"]
+[ext_resource type="PackedScene" uid="uid://ccd4ycx05joj3" path="res://scenes/blocs/tilted/right/tilt_right.tscn" id="14_uennv"]
+[ext_resource type="PackedScene" uid="uid://dqwb8w14iddh6" path="res://scenes/blocs/tilted/right/untilt_right.tscn" id="15_57vuk"]
 [ext_resource type="PackedScene" uid="uid://cp78k2qunt1av" path="res://scenes/blocs/tilted/left/tilted_left.tscn" id="16_sbkfd"]
-[ext_resource type="PackedScene" uid="uid://th436bg25crk" path="res://scenes/blocs/tilted/left/road_tilt_left.tscn" id="17_hxge3"]
+[ext_resource type="PackedScene" uid="uid://th436bg25crk" path="res://scenes/blocs/tilted/left/tilt_left.tscn" id="17_hxge3"]
 [ext_resource type="Script" path="res://scenes/blocs/bloc.gd" id="18_q54ms"]
 [ext_resource type="PackedScene" uid="uid://1mi3no5koayb" path="res://scenes/blocs/assets/tilt_road_right.glb" id="19_2tbhf"]
 [ext_resource type="PackedScene" uid="uid://bkkeeqn0q7e4k" path="res://scenes/blocs/tilted/tilted_sharp_turn_left.tscn" id="19_clcxj"]
@@ -31,6 +31,10 @@
 [ext_resource type="PackedScene" uid="uid://cp7tgna5127mc" path="res://scenes/blocs/tilted/tilted_large_turn_right.tscn" id="24_j0u54"]
 [ext_resource type="PackedScene" uid="uid://4q872nna1qeu" path="res://scenes/blocs/tilted/tilted_turn_left.tscn" id="25_7huti"]
 [ext_resource type="PackedScene" uid="uid://4djcbirjn7lm" path="res://scenes/blocs/tilted/tilted_turn_right.tscn" id="26_4ofhk"]
+[ext_resource type="PackedScene" uid="uid://ohw5qt3c343u" path="res://scenes/blocs/tilted/left/tilted_chicane_left_down.tscn" id="27_6w7gl"]
+[ext_resource type="PackedScene" uid="uid://cy1ee5xq3tjh" path="res://scenes/blocs/tilted/left/tilted_chicane_left_up.tscn" id="28_4f3k6"]
+[ext_resource type="PackedScene" uid="uid://bc6b66lvhain8" path="res://scenes/blocs/tilted/right/tilted_chicane_right_down.tscn" id="29_abt1t"]
+[ext_resource type="PackedScene" uid="uid://bpx80v0b7agxl" path="res://scenes/blocs/tilted/right/tilted_chicane_right_up.tscn" id="30_a2gki"]
 
 [sub_resource type="GDScript" id="GDScript_1twkq"]
 script/source = "extends Node3D
@@ -59,7 +63,7 @@ _bundled = {
 "conn_count": 0,
 "conns": PackedInt32Array(),
 "editable_instances": [],
-"names": PackedStringArray("RoadUntiltLeft", "Node3D", "script", "tilt_road_right", "transform", "Connector_IN", "transform", "inclination", "Connector_OUT", "transform"),
+"names": PackedStringArray("RoadUntiltLeft", "Node3D", "script", "tilt_road_right", "transform", "Connector_IN", "transform", "roll", "Connector_OUT", "transform"),
 "node_count": 4,
 "node_paths": [NodePath("."), NodePath("."), NodePath(".")],
 "nodes": PackedInt32Array(-1, -1, 1, 0, -1, 1, 2, 0, 0, 1073741824, 0, 2147483647, 3, 1, 1, 4, 2, 0, 1073741825, 0, 2147483647, 5, 3, 2, 6, 4, 7, 5, 0, 1073741826, 0, 2147483647, 8, 6, 1, 9, 7, 0),
@@ -107,7 +111,7 @@ script = SubResource("GDScript_1twkq")
 
 [node name="RoadGenerator" type="Node3D" parent="."]
 script = ExtResource("1_f41a7")
-roads = Array[PackedScene]([ExtResource("2_lidps"), ExtResource("3_aj6fs"), ExtResource("4_odcy4"), ExtResource("5_0056o"), ExtResource("6_0todr"), ExtResource("3_nu5gk"), ExtResource("4_e1q73"), ExtResource("9_ci80e"), ExtResource("10_s6wrm"), ExtResource("11_i4sni"), ExtResource("12_mb484"), ExtResource("13_kqjp8"), ExtResource("14_uennv"), ExtResource("15_57vuk"), ExtResource("16_sbkfd"), ExtResource("17_hxge3"), SubResource("PackedScene_fde78"), ExtResource("19_clcxj"), ExtResource("20_6ufao"), ExtResource("23_8itil"), ExtResource("24_j0u54"), ExtResource("25_7huti"), ExtResource("26_4ofhk")])
+roads = Array[PackedScene]([ExtResource("2_lidps"), ExtResource("3_aj6fs"), ExtResource("4_odcy4"), ExtResource("5_0056o"), ExtResource("6_0todr"), ExtResource("3_nu5gk"), ExtResource("4_e1q73"), ExtResource("9_ci80e"), ExtResource("10_s6wrm"), ExtResource("11_i4sni"), ExtResource("12_mb484"), ExtResource("13_kqjp8"), ExtResource("14_uennv"), ExtResource("15_57vuk"), ExtResource("16_sbkfd"), ExtResource("17_hxge3"), SubResource("PackedScene_fde78"), ExtResource("19_clcxj"), ExtResource("20_6ufao"), ExtResource("23_8itil"), ExtResource("24_j0u54"), ExtResource("25_7huti"), ExtResource("26_4ofhk"), ExtResource("27_6w7gl"), ExtResource("28_4f3k6"), ExtResource("29_abt1t"), ExtResource("30_a2gki")])
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("7_urhx6")]
 

@@ -169,6 +169,7 @@ func _input(event: InputEvent) -> void:
     save_steering = steering
     lock()
 
+
 func resume() -> void:
   %EscapeScreen.hide()
   GlobalTimer.start()
@@ -179,6 +180,7 @@ func resume() -> void:
   linear_damp = save_linear_damp
   steering = save_steering
   unlock()
+
 
 ## Update the validated checkpoint display
 func update_validated_checkpoint() -> void:
