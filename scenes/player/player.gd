@@ -161,6 +161,7 @@ func _input(event: InputEvent) -> void:
   if event.is_action_pressed("ui_cancel"):
     GlobalTimer.stop()
     %EscapeScreen.show()
+    # Can't use set_physics_process(false) nor set_physics_process(false) because it won't work
     save_inertia = inertia
     save_angular_velocity = angular_velocity
     save_linear_velocity = linear_velocity
@@ -168,17 +169,16 @@ func _input(event: InputEvent) -> void:
     save_steering = steering
     lock()
 
-
 func resume() -> void:
   %EscapeScreen.hide()
   GlobalTimer.start()
+  # Can't use set_physics_process(true) nor set_physics_process(true) because it won't work
   inertia = save_inertia
   angular_velocity = save_angular_velocity
   linear_velocity = save_linear_velocity
   linear_damp = save_linear_damp
   steering = save_steering
   unlock()
-
 
 ## Update the validated checkpoint display
 func update_validated_checkpoint() -> void:

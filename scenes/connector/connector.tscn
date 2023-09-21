@@ -6,12 +6,14 @@
 albedo_color = Color(0.2, 0.2, 0.2, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_pgpew"]
+resource_local_to_scene = true
 size = Vector3(20, 0.25, 0.4)
 
 [sub_resource type="PrismMesh" id="PrismMesh_1ybjv"]
 size = Vector3(0.4, 0.2, 0.1)
 
 [node name="Connector" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_5sgti")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

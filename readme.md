@@ -29,8 +29,8 @@ The tracks are procedurally generated, the car use godot car physics.
 
 - [x] Add a base leader-board
 - [ ] Add car sound
-- [~] Add more blocs
-- [ ] Update connectors to take inclination (slope)
+- [~] Add tilted blocs
+- [x] Update connectors to take roll/pitch/wide into account
 - [ ] Update car physics
 - [~] Update camera to aim in front of the car
 - [x] Add a control settings menu

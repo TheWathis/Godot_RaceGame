@@ -13,7 +13,7 @@ color = Color(0.2, 0.2, 0.2, 1)
 inclination = 25
 
 [node name="Connector_OUT" parent="." instance=ExtResource("2_wcwuq")]
-transform = Transform3D(-3.9616e-08, 1.84732e-08, 1, 0.422618, 0.906308, 0, -0.906308, 0.422618, -4.37114e-08, 0, 4, -10)
+transform = Transform3D(-3.9616e-08, 1.84732e-08, 1, 0.422618, 0.906308, 2.68263e-14, -0.906308, 0.422618, -4.37114e-08, 0, 4, -10)
 color = Color(0.2, 0.2, 0.2, 1)
 inclination = 25
 

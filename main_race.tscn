@@ -124,7 +124,7 @@ shape = SubResource("BoxShape3D_w64dm")
 
 [node name="SpectatorCamera" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 150, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 250, 0)
 current = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

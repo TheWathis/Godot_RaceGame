@@ -7,11 +7,11 @@
 [node name="RoadChicaneRight" type="Node3D"]
 script = ExtResource("1_gfle1")
 
-[node name="flat_chicane" parent="." instance=ExtResource("2_13j0n")]
-
 [node name="Connector_IN" parent="." instance=ExtResource("2_8uf5q")]
 color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="Connector_OUT" parent="." instance=ExtResource("2_8uf5q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -30)
 color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="flat_chicane_right" parent="." instance=ExtResource("2_13j0n")]

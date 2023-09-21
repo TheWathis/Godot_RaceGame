@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cg8y05aj78yvc"]
+[gd_scene load_steps=30 format=3 uid="uid://cg8y05aj78yvc"]
 
 [ext_resource type="Script" path="res://home.gd" id="1_knx7k"]
 [ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://scenes/environment/world_environment.tscn" id="2_1lxeg"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c8ownil452bku" path="res://scenes/ui/leader_board.tscn" id="4_qp66u"]
 [ext_resource type="PackedScene" uid="uid://b2yb2umddwmwh" path="res://scenes/ui/menus/settings/settings.tscn" id="6_t7uq3"]
 [ext_resource type="Script" path="res://scenes/player/fov_camera.gd" id="6_u1874"]
+[ext_resource type="PackedScene" uid="uid://dmcaoj7xfioy0" path="res://scenes/blocs/assets/flat_road.glb" id="8_t5ojx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nf5bf"]
 font_size = 64
@@ -373,7 +374,7 @@ text = "Return to home"
 environment = SubResource("Environment_37euw")
 
 [node name="Player" type="VehicleBody3D" parent="."]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -19, 0, 2)
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -19, 1, 2)
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0.2, 0)
 physics_material_override = SubResource("PhysicsMaterial_q75um")
@@ -473,6 +474,9 @@ autoplay = true
 bus = &"Music"
 
 [node name="Roads" type="Node3D" parent="."]
+
+[node name="flat_road" parent="Roads" instance=ExtResource("8_t5ojx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0, 16)
 
 [connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Generate" to="." method="_on_generate_pressed"]
 [connection signal="pressed" from="MainMenu/HomeMenu/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
