@@ -18,7 +18,7 @@ color = Color(0.2, 0.2, 0.2, 1)
 roll = 25
 
 [node name="Connector_OUT" parent="." instance=ExtResource("2_b431i")]
-transform = Transform3D(-3.9616e-08, 1.84732e-08, 1, 0.422618, 0.906308, 2.77852e-14, -0.906308, 0.422618, -4.37114e-08, 0, 4, -30)
+transform = Transform3D(-3.9616e-08, 1.84732e-08, 1, 0.422618, 0.906308, 2.73512e-14, -0.906308, 0.422618, -4.37114e-08, 0, 4, -30)
 color = Color(0.2, 0.2, 0.2, 1)
 roll = 25
 

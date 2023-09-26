@@ -3,7 +3,7 @@ class_name Player extends VehicleBody3D
 # Car related
 
 const STEER_SPEED: float = 2.5
-const STEER_LIMIT: float = 0.5
+const STEER_LIMIT: float = 0.25
 const MAX_GEAR: int = 6
 
 @export var engine_force_value: int = 100
@@ -60,7 +60,8 @@ func _physics_process(delta: float) -> void:
 
   if not ended and not paused:
     steer_target = Input.get_action_strength("turn_left") - Input.get_action_strength("turn_right")
-    steer_target *= lerp(0.0, STEER_LIMIT, 1.0 / (1.0 + sqrt(linear_velocity.length())))
+    # steer_target *= lerp(0.0, STEER_LIMIT, 1.0 / (1.0 + sqrt(linear_velocity.length())))
+    steer_target *= STEER_LIMIT
 
     var is_in_air: bool = not %Wheel_F_L.is_in_contact() and not %Wheel_F_R.is_in_contact() \
       and not %Wheel_B_L.is_in_contact() and not %Wheel_B_R.is_in_contact()
@@ -85,14 +86,11 @@ func _physics_process(delta: float) -> void:
     rpm = 0
     brake = 0.0
   
-  ## Downforce
+  ## Camera
   var init_pos: Vector3 = %CustomCamera.get_node("Target").global_position
   var v_direction: Vector3 = linear_velocity.normalized()
   var dest_pos: Vector3 = global_position + linear_velocity.length() / 5.0 * v_direction
   %CustomCamera.get_node("Target").global_position = lerp(init_pos, dest_pos, 0.1)
-  
-  # # If the car is moving on their basis z axis, apply a downforce to the car.
-  constant_force = Vector3(0, -ease(linear_velocity.length() * 3.6 / 150.0, 2) * 1000, 0)
   
   ## Vehicleforce
   # Turn left
