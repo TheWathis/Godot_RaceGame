@@ -53,8 +53,6 @@ size = Vector3(1000, 1, 1000)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dtnqd"]
 streams_count = 4
-random_pitch = 1.0
-random_volume_offset_db = 0.0
 stream_0/stream = ExtResource("11_061fw")
 stream_0/weight = 1.0
 stream_1/stream = ExtResource("12_i4y6x")
