@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceGame", "RaceGame.csproj", "{F5B257B3-1A7E-4AD9-9A0D-75D82AB62DEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5B257B3-1A7E-4AD9-9A0D-75D82AB62DEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B257B3-1A7E-4AD9-9A0D-75D82AB62DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B257B3-1A7E-4AD9-9A0D-75D82AB62DEE}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{F5B257B3-1A7E-4AD9-9A0D-75D82AB62DEE}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{F5B257B3-1A7E-4AD9-9A0D-75D82AB62DEE}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{F5B257B3-1A7E-4AD9-9A0D-75D82AB62DEE}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal

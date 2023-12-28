@@ -52,11 +52,17 @@ func _process(_delta: float) -> void:
   %Speed.text = "%d km/h" % [linear_velocity.length() * 3.6]
   %Gear.text = "%d" % [current_gear]
 
+
 func _physics_process(delta: float) -> void:
   var forward_movement: Vector3 = linear_velocity * transform.basis.z
+
+  $VelocityVisualizer.set("scale", Vector3(1, 1, linear_velocity.length() / 10.0))
+  # Set the rotation of the velocity visualizer to be the linear velocity direction
+  $VelocityVisualizer.set("rotation_degrees", Vector3(0, 0, atan2(linear_velocity.x, linear_velocity.z) * 180.0 / PI))
+
+
   # Revolution per minutes (it's wrong but w/e)
   var rpm: float = 0.0
-
 
   if not ended and not paused:
     steer_target = Input.get_action_strength("turn_left") - Input.get_action_strength("turn_right")
@@ -96,26 +102,26 @@ func _physics_process(delta: float) -> void:
   # Turn left
   if steer_target < 0:
     # Accelerate right wheels
-    %Wheel_F_R.engine_force = rpm / 3.0
-    %Wheel_B_R.engine_force = rpm / 3.0
+    %Wheel_F_R.engine_force = rpm / 1.0
+    # %Wheel_B_R.engine_force = rpm / 3.0
     # Decelerate left wheels
-    %Wheel_F_L.engine_force = rpm / 6.0
-    %Wheel_B_L.engine_force = rpm / 6.0
+    %Wheel_F_L.engine_force = rpm / 2.0
+    # %Wheel_B_L.engine_force = rpm / 6.0
   # Turn right
   elif steer_target > 0:
     # Accelerate left wheels
-    %Wheel_F_L.engine_force = rpm / 3.0
-    %Wheel_B_L.engine_force = rpm / 3.0
+    %Wheel_F_L.engine_force = rpm / 1.0
+    # %Wheel_B_L.engine_force = rpm / 3.0
     # Decelerate right wheels
-    %Wheel_F_R.engine_force = rpm / 6.0
-    %Wheel_B_R.engine_force = rpm / 6.0
+    %Wheel_F_R.engine_force = rpm / 2.0
+    # %Wheel_B_R.engine_force = rpm / 6.0
   # Go straight
   else:
     # Accelerate all wheels
-    %Wheel_F_L.engine_force = rpm / 4.0
-    %Wheel_F_R.engine_force = rpm / 4.0
-    %Wheel_B_L.engine_force = rpm / 4.0
-    %Wheel_B_R.engine_force = rpm / 4.0
+    %Wheel_F_L.engine_force = rpm / 2.0
+    %Wheel_F_R.engine_force = rpm / 2.0
+    # %Wheel_B_L.engine_force = rpm / 4.0
+    # %Wheel_B_R.engine_force = rpm / 4.0
   
   ## Steering
   steering = move_toward(steering, steer_target, STEER_SPEED * delta)

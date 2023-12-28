@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2x4tnxlnkokj"]
+
+[ext_resource type="ArrayMesh" uid="uid://c72kaoifbif21" path="res://scenes/player/base_car.tres" id="1_f32fg"]
+[ext_resource type="Script" path="res://scenes/player/KCC_Car.cs" id="1_tmvxm"]
+[ext_resource type="ArrayMesh" uid="uid://c24jwpeuelhcw" path="res://scenes/player/base_wheel.tres" id="2_n0dws"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4744d"]
+bounce = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bl2n6"]
+
+[node name="KccCar" type="RigidBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_4744d")
+gravity_scale = 5.0
+angular_damp = 10.0
+script = ExtResource("1_tmvxm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_bl2n6")
+
+[node name="BaseCar" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_f32fg")
+
+[node name="F_R" type="MeshInstance3D" parent="BaseCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.15, -0.65)
+mesh = ExtResource("2_n0dws")
+
+[node name="F_L" type="MeshInstance3D" parent="BaseCar"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.35, 0.15, -0.65)
+mesh = ExtResource("2_n0dws")
+
+[node name="B_R" type="MeshInstance3D" parent="BaseCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.15, 0.85)
+mesh = ExtResource("2_n0dws")
+
+[node name="B_L" type="MeshInstance3D" parent="BaseCar"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.35, 0.15, 0.85)
+mesh = ExtResource("2_n0dws")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]

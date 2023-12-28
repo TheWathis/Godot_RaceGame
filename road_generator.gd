@@ -103,7 +103,7 @@ func _generate() -> void:
   await get_tree().create_timer(0.005).timeout
   
   # print("Roads generated")
-  %SpectatorCamera.current = false
+  # %SpectatorCamera.current = false
   map_node.place_player()
 
 
