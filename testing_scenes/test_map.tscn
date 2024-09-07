@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://bswjla2i8l2ba"]
+
+[ext_resource type="PackedScene" uid="uid://cug0e6ajqr1df" path="res://scenes/player/player.tscn" id="1_ar8ro"]
+[ext_resource type="PackedScene" uid="uid://8twq3xx71nt6" path="res://scenes/environment/world_environment.tscn" id="2_3awey"]
+[ext_resource type="Material" uid="uid://1ytkwpyh6aj6" path="res://assets/materials/prototype_floor.material" id="3_btqir"]
+[ext_resource type="Script" path="res://testing_scenes/floor.gd" id="4_87erj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_smbad"]
+size = Vector3(1000, 0.2, 1000)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_dvcib"]
+points = PackedVector3Array(-500, -0.1, -500, -500, 0.1, -500, 500, -0.1, -500, -500, -0.1, 500, -500, 0.1, 500, 500, 0.1, -500, 500, -0.1, 500, 500, 0.1, 500)
+
+[node name="TestMap" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_ar8ro")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19.5063, 5.22926, 4.08001)
+
+[node name="WorldEnvironment" parent="." instance=ExtResource("2_3awey")]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0652983, 0)
+material_override = ExtResource("3_btqir")
+mesh = SubResource("BoxMesh_smbad")
+skeleton = NodePath("")
+script = ExtResource("4_87erj")
+frequency = 4.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_dvcib")
