@@ -41,7 +41,7 @@ func save_data() -> void:
 ## Add a new map to the information file
 func add_map(map_seed: int) -> void:
   maps_information[map_seed] = {
-    "best_time": -1.0,
+    "best_time": - 1.0,
     "times_played": 0,
     "checkpoints": []
   }
@@ -50,6 +50,8 @@ func add_map(map_seed: int) -> void:
 
 ## Increment the number of times a map has been played
 func increment_played(map_seed: int) -> void:
+  if not maps_information.has(map_seed):
+    add_map(map_seed)
   maps_information[map_seed]["times_played"] += 1
   save_data()
 

@@ -3,23 +3,18 @@ class_name RoadGenerator extends Node3D
 ## Base path to the road blocs
 const ROAD_BLOCS_PATH: String = "res://scenes/blocs/"
 
-
 ## Desired road length (25 blocs ~= 45 seconds)
 @export var desired_road_length: int = 25
 
-
 var map_scene: PackedScene = preload("res://scenes/map/map.tscn")
 var map_node: Map
-
 
 var _road_blocs: Array[PackedScene] = []
 # Road length without checkpoint, used to not generate too many roads without checkpoint
 var _road_length_without_checkpoint: int = 0
 
-
 func _ready() -> void:
   _populate_blocs()
-
 
 ## Populate the blocs list
 func _populate_blocs() -> void:
@@ -30,7 +25,6 @@ func _populate_blocs() -> void:
   
   folder.list_dir_begin()
   _populate_blocs_from_folder(folder)
-
 
 ## Recursively populate the blocs list from the given folder
 func _populate_blocs_from_folder(folder: DirAccess) -> void:
@@ -57,7 +51,6 @@ func _populate_blocs_from_folder(folder: DirAccess) -> void:
       _populate_blocs_from_folder(sub_folder)
       sub_folder.list_dir_end()
     file = folder.get_next()
-
 
 func _generate() -> void:
   if not MapsInfo.maps_information.has(Random.rng.seed):
@@ -101,11 +94,9 @@ func _generate() -> void:
 
   map_node.add_end()
   await get_tree().create_timer(0.005).timeout
-  
-  # print("Roads generated")
+
   %SpectatorCamera.current = false
   map_node.place_player()
-
 
 func _clear() -> void:
   if map_node != null:
